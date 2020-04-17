@@ -14,15 +14,19 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
 } from 'react-native';
 
+import Stack from './screens/stack'
 
 
-
-const App = ()=>{
+const App = (props)=>{
+  
   return(
     <View style={styles.container}>
       <Text style={{fontSize:20,color:"purple"}}>Drone</Text>
+      {/* <Stack></Stack> */}
+     
     </View>
   )
 }
@@ -30,9 +34,9 @@ const App = ()=>{
 
 const styles = StyleSheet.create({
   container:{
-    paddingTop:20,
-    flex:1,
-    alignItems:"center",
+    // paddingTop:20,
+    flex:1  
+   
  
   }
 
