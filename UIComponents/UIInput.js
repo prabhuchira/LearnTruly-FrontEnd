@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Input} from 'react-native-elements'
+import {Input, withTheme} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/Feather';
 import inputStyles from './UIStyles/InputStyles';
 
@@ -17,7 +17,16 @@ const UIInput = (props)=>{
             return <Icon color={"rgba(48, 48, 48,0.7)"} name={props.icon_name} size={20} ></Icon>
         }}
 
-        
+        errorStyle={
+            {
+                color:"rgb(184, 184, 184)",
+                fontWeight:"bold",
+                // color:withTheme,
+                // letterSpacing:??/
+                // fontSize:15
+                fontFamily:"Montserrat-Regular"
+            }
+        }
 
         
         />
