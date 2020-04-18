@@ -17,28 +17,45 @@ import {
   Button,
 } from 'react-native';
 
-import Stack from './screens/stack'
+import Stack from './screens/stack';
+import Tabs from './screens/tabs';
 
 
-const App = (props)=>{
-  
-  return(
+
+import {Image} from 'react-native';
+import Login from './components/LoginStack';
+
+const App = (props) => {
+
+  return (
     <View style={styles.container}>
-      <Text style={{fontSize:20,color:"purple"}}>Drone</Text>
-      {/* <Stack></Stack> */}
+
+
      
+    <Login></Login>
+    
+
     </View>
   )
 }
 
 
 const styles = StyleSheet.create({
-  container:{
-    // paddingTop:20,
-    flex:1  
-   
- 
+  container: {
+    // paddingVertical: 20,
+    flex: 1,
+    // alignItems: "center"
+  },
+  postSection:{
+    color:"purple",
+    fontFamily:"SourceSansPro-Regular",
+    fontSize:20,
+    lineHeight:30,
+    textAlign:"justify",
+    
   }
+
+
 
 })
 
