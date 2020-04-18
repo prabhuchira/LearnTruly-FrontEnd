@@ -1,10 +1,11 @@
 import * as React from 'react';
 
-import {View,Image,StyleSheet, ImageBackground,StatusBar, ShadowPropTypesIOS} from 'react-native';
+import {View,Image,StyleSheet,StatusBar, Keyboard, } from 'react-native';
 
 
 import UIButton from '../UIComponents/UIButton';
 import UIInput from '../UIComponents/UIInput';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 const SignUp = (props) => {
@@ -14,6 +15,7 @@ const SignUp = (props) => {
     return(
         
         <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
             <StatusBar backgroundColor="#3671bf"></StatusBar>
             
             <Image source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
@@ -39,7 +41,7 @@ const SignUp = (props) => {
                 </View> 
 
                 
-              
+                </TouchableWithoutFeedback>
               
         </View>
         

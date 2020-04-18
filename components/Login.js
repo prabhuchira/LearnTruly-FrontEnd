@@ -1,21 +1,21 @@
 import * as React from 'react';
 
-import {Text,View,Image,StyleSheet, ImageBackground,StatusBar} from 'react-native';
+import {Text,View,Image,StyleSheet,StatusBar, Keyboard} from 'react-native';
 
-import {Button,Input} from 'react-native-elements'
-import Icon from 'react-native-vector-icons/Feather';
 import UIButton from '../UIComponents/UIButton';
 import UIInput from '../UIComponents/UIInput';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 const Login = (props) => {
     
     return(
         
-        <View style={styles.container}>
+        <View style={styles.container} >
+            <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
             <StatusBar backgroundColor="#3671bf"></StatusBar>
             
-            <Image source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
+            <Image  source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
                 <View style={{alignItems:"center"}}>
 
                   
@@ -36,7 +36,7 @@ const Login = (props) => {
 
                 </View> 
 
-
+               <View style={{alignItems:"center"}}> 
                 <View style={{flexDirection:"row",marginVertical:20}}>
                     <Text style={{color:"white"}}>Don`t have an Account?</Text>
                     <Text style={{color:"white",fontWeight:"bold"}}
@@ -48,12 +48,15 @@ const Login = (props) => {
                         })}
                     > Sign up!</Text>
                 </View>
-
                 <View style={{marginVertical:0}}>
                     <Text style={{color:"white"}}>Forgot password?</Text>
                 </View>
-              
+                </View>
+
+               
+                </TouchableWithoutFeedback>
         </View>
+    
         
     )
 }
