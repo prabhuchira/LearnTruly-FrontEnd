@@ -1,37 +1,28 @@
-import * as React from 'react';
+import {createAppContainer} from 'react-navigation'
+import {createStackNavigator} from 'react-navigation-stack'
+import Login from './Login';
+import SignUp from './SignUp';
 
-import {Text,View,Image,StyleSheet, ImageBackground} from 'react-native';
 
-
-
-const Login = () => {
-    return(
-        <View style={styles.container}>
-            
-            <Image source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
-                <View>
-                    
-                </View> 
-            
-        </View>
-    )
-}
-
-export default Login;
-
-const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems:"center",
-        justifyContent:"center",
-        backgroundColor:"#3671bf",
-        // backgroundColor:"red",
-        // back
-        
+const LoginStack = createStackNavigator({
+    login:{
+        screen:Login,
+        navigationOptions:{
+            headerShown:false
+        }
     },
-    logo:{
-        width:350,
-        height:150,
+    signup:SignUp
+},{
+
+    defaultNavigationOptions:{
+        headerTransparent:true,
+        headerBackTitleStyle:{
+            color:"white",
+            backgroundColor:"white"
+        },
+        headerTintColor:"white",
+        headerTitle:''
     }
-   
 })
+
+export default createAppContainer(LoginStack);

@@ -17,13 +17,15 @@ import {
   Button,
 } from 'react-native';
 
+
 import Stack from './screens/stack';
 import Tabs from './screens/tabs';
 
 
 
 import {Image} from 'react-native';
-import Login from './components/LoginStack';
+import Login from './components/Login';
+import LoginStack from './components/LoginStack';
 
 const App = (props) => {
 
@@ -32,7 +34,7 @@ const App = (props) => {
 
 
      
-    <Login></Login>
+      <LoginStack></LoginStack>
     
 
     </View>
