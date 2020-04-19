@@ -15,7 +15,7 @@ const CreateClass = (props) => {
 
     return(
       
-       <Formik initialValues={{className:"",no_of_students:0,year:0}} 
+       <Formik initialValues={{className:"",facultyName:"",no_of_students:0,year:0}} 
        
        onSubmit={
            (data)=>{
@@ -30,6 +30,13 @@ const CreateClass = (props) => {
                     const errors={};  
                         if(values.className === ''){
                             errors.className = "Class Name is required"
+                        }
+                        else if(values.className.includes(' ')){
+                            errors.className = "No spaces"
+                        }
+
+                        if(values.facultyName === ''){
+                            errors.facultyName = "Faculty Name is required"
                         }
                         if(values.no_of_students <= 0){
                             errors.no_of_students ="Minimum one student is required."
@@ -46,6 +53,12 @@ const CreateClass = (props) => {
                         <Input label={"Class"} placeholder="ClassName" onChangeText={handleChange("className")} onBlur={handleBlur("className")} 
                         
                         errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
+
+                        </Input>
+                        <Text></Text>
+                        <Input  label={"Assign Faculty"} placeholder="Faculty name" onChangeText={handleChange("facultyName")} onBlur={handleBlur("facultyName")} 
+                        
+                        errorMessage={errors.facultyName && touched.facultyName ? errors.facultyName : ''} errorStyle={{color:"red"}}>
 
                         </Input>
 

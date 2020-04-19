@@ -12,7 +12,14 @@ import  Icon from 'react-native-vector-icons/Feather';
 import CreateClass from './CreateClass';
 
 
+import LinearGradient from 'react-native-linear-gradient';
+import UICard from '../../UIComponents/UICard';
+import { TouchableNativeFeedback, ScrollView } from 'react-native-gesture-handler';
+
 const ManagementDashboard = (props) =>{
+
+   
+
     const [state,setState] = React.useState(false);
 
     const [values,setValues] = React.useState([]);
@@ -40,32 +47,25 @@ const ManagementDashboard = (props) =>{
         <View style={{flex:1,backgroundColor:"white"}}>
       
             
-        <Overlay isVisible={state} onBackdropPress={changeState} height={380}>
+        <Overlay isVisible={state} onBackdropPress={changeState} height={490}>
             <CreateClass closeModal={changeState} getValue={getValue}></CreateClass>
         </Overlay>
               
 
       
+        
 
-                <View style={
-                    {
-                    flex:1,
-                    alignItems:"center",
-                    maxHeight:200,
-                   
-                    backgroundColor:"#4387e0",
-                    marginHorizontal:15,
-                    marginTop:20,
-                    borderRadius:10,
-                    elevation:10,
-                
-                    }}>
-
-                </View>
-
-
-
-
+            {
+                values.length >= 0 ?
+                <ScrollView>
+                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
+                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
+                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
+                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
+                </ScrollView>
+            :
+            null
+            }
 
 
 

@@ -12,18 +12,19 @@ const ManagementStack = createStackNavigator({
         navigationOptions:{
             headerTitle:"Events",
             headerStyle:{
-                backgroundColor:"#3671bf",
+                // backgroundColor:"#3671bf",
+                // backgroundColor:
                
                 
             },
-            headerTintColor:"white",
+            // headerTintColor:"white",
             headerRight:()=>{
-                return <Icon name="settings" color="white" size={25} ></Icon>
+                return <Icon name="settings" color="rgb(184, 184, 184)" size={25} ></Icon>
             },
             headerRightContainerStyle:{
                 marginHorizontal:20,
                 elevation:15,
-                
+
             },
             
            

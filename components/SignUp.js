@@ -27,7 +27,7 @@ const SignUp = (props) => {
         <View style={styles.container}>
              
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <StatusBar backgroundColor="#3671bf"></StatusBar>
+                <StatusBar  backgroundColor="#3671bf" barStyle="light-content"></StatusBar>
              
                 <Image source={require('./../assets/images/Logo-wo-background.png')} resizeMode="contain" style={styles.logo} />
                 <View style={{ alignItems: "center" }}>

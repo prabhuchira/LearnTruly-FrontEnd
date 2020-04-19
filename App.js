@@ -34,7 +34,7 @@ const App = (props) => {
     <View style={styles.container}>
 
 
-    <StatusBar backgroundColor="#3671bf"></StatusBar>
+    <StatusBar backgroundColor="white" barStyle="dark-content"></StatusBar>
       {/* <LoginStack></LoginStack> */}
       <DashboardStack></DashboardStack>
 
