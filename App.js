@@ -26,6 +26,7 @@ import Tabs from './screens/tabs';
 import {Image} from 'react-native';
 import Login from './components/Login';
 import LoginStack from './components/LoginStack';
+import DashboardStack from './components/Dashboard/DashboardTabs';
 
 const App = (props) => {
 
@@ -33,9 +34,9 @@ const App = (props) => {
     <View style={styles.container}>
 
 
-     
-      <LoginStack></LoginStack>
-    
+    <StatusBar backgroundColor="#3671bf"></StatusBar>
+      {/* <LoginStack></LoginStack> */}
+      <DashboardStack></DashboardStack>
 
     </View>
   )
@@ -56,9 +57,6 @@ const styles = StyleSheet.create({
     textAlign:"justify",
     
   }
-
-
-
 })
 
 

@@ -2,6 +2,7 @@ import {createAppContainer} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import Login from './Login';
 import SignUp from './SignUp';
+import ForgotPassword from './ForgotPassword';
 
 
 const LoginStack = createStackNavigator({
@@ -11,7 +12,8 @@ const LoginStack = createStackNavigator({
             headerShown:false
         }
     },
-    signup:SignUp
+    signup:SignUp,
+    forgotPassword:ForgotPassword
 },{
 
     defaultNavigationOptions:{

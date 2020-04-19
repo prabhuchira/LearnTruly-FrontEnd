@@ -41,6 +41,14 @@ const Login = (props) => {
                         {
                             errors.roll_no = "No 546 is allowed"
                         }
+                        else if(values.roll_no == ''){
+                            errors.roll_no = "Email is required"
+                        }
+
+
+                        if(values.password == ""){
+                            errors.password = "Password is required"
+                        }
                         return errors;
                     }}
                    >
@@ -62,7 +70,7 @@ const Login = (props) => {
                                     right_icon_name="eye-off"
                                     onChangeText={handleChange("password")}
                                     onBlur={handleBlur("password")}
-                                    
+                                    errorMessage={errors.password && touched.password ? errors.password : ''}
                                                     
                                 ></UIInput>
 
@@ -88,12 +96,25 @@ const Login = (props) => {
                                 title:'login'
                             }
                         })}
-                    > Sign up!</Text>
+                    > Signup!</Text>
                 </View>
                 <View style={{marginVertical:0}}>
-                    <Text style={{color:"white"}}>Forgot password?</Text>
+                    <Text style={{color:"white"}}
+                    
+                    onPress={()=>props.navigation.navigate({
+                        routeName:'forgotPassword',
+                        params:{
+                            title:'login'
+                        }
+                    })}
+                    
+                    >Forgot password?</Text>
                 </View>
                 </View>
+
+               
+                 
+               
 
                
                 </TouchableWithoutFeedback>
