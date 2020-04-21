@@ -13,14 +13,19 @@ const CreateClass = (props) => {
     const [state,setState] = React.useState(0);
     const buttons = ["Ist","IInd","IIIrd","IVth"]
 
+    let initialValues = {className:"",facultyName:"",no_of_students:0,year:0}
+
+
+
+
     return(
       
-       <Formik initialValues={{className:"",facultyName:"",no_of_students:0,year:0}} 
+       <Formik initialValues={initialValues} 
        
        onSubmit={
            (data)=>{
-        //    console.log(props);
-           props.getValue(data);
+       
+          
            props.closeModal();}
         
         } 

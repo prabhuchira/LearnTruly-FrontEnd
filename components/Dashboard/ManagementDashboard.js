@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Text, Overlay, Card} from 'react-native-elements';
 
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions,  TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
 import SignUp from '../SignUp';
@@ -23,6 +23,8 @@ const ManagementDashboard = (props) =>{
     const [state,setState] = React.useState(false);
 
     const [values,setValues] = React.useState([]);
+    
+    const [item,selectedItem] = React.useState(0);
 
     const changeState = () => {
        
@@ -33,7 +35,11 @@ const ManagementDashboard = (props) =>{
     const getValue = (val) => {
         console.log("before")
         console.log(values)
-        setValues([{...val}])
+
+        setValues(
+         [...values,val]
+        )
+
         console.log('after')
         console.log(values)
     }
@@ -47,8 +53,13 @@ const ManagementDashboard = (props) =>{
         <View style={{flex:1,backgroundColor:"white"}}>
       
             
-        <Overlay isVisible={state} onBackdropPress={changeState} height={490}>
-            <CreateClass closeModal={changeState} getValue={getValue}></CreateClass>
+        <Overlay isVisible={state} onBackdropPress={changeState}
+        
+                height={490}
+        
+        
+        >
+            <CreateClass closeModal={changeState}></CreateClass>
         </Overlay>
               
 
@@ -58,10 +69,22 @@ const ManagementDashboard = (props) =>{
             {
                 values.length >= 0 ?
                 <ScrollView>
-                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
-                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
-                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
-                <UICard className={values[0].className} facultyName={values[0].facultyName} no_of_students={values[0].no_of_students} year={values[0].year}></UICard>
+                    {values.map((item,index)=>{
+
+
+
+                        return   (
+                        <TouchableOpacity activeOpacity={0.6} >
+                            <UICard key={index} className={item.className} facultyName={item.facultyName} no_of_students={item.no_of_students} year={item.year} 
+                                edit={()=>{   changeState();}}>
+                            </UICard>
+                         </TouchableOpacity>
+                        )
+
+                    })}
+
+              
+               
                 </ScrollView>
             :
             null

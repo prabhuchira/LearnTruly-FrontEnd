@@ -12,7 +12,7 @@ const UICard = (props) => {
 
     React.useEffect(()=>{
         
-        console.log("fuck")
+        
         console.log(props)
         // selectedColor=
     })
@@ -102,7 +102,9 @@ const UICard = (props) => {
                         }}
 
                         // titleStyle={{color:"#ff3535"}}
-                        // buttonStyle={{borderColor:"#ff3535"}}
+                     // buttonStyle={{borderColor:"#ff3535"}}
+                     onPress={()=>props.edit() }
+                       
 
                         containerStyle={styles.editAndDelete} title="Edit" ></Button>
                         <Button  containerStyle={styles.editAndDelete}  title="Delete"
