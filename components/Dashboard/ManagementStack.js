@@ -1,46 +1,51 @@
 import * as React from 'react';
-import { createAppContainer } from 'react-navigation';
+import {createAppContainer, NavigationActions} from 'react-navigation';
 import ManagementDashboard from './ManagementDashboard';
-import { createStackNavigator } from 'react-navigation-stack';
-import  Icon  from 'react-native-vector-icons/Feather';
+import {createStackNavigator} from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/Feather';
 
+const ManagementStack = createStackNavigator(
+  {
+    events: {
+      screen: ManagementDashboard,
 
-
-const ManagementStack = createStackNavigator({
-    events:{
-        screen:ManagementDashboard,
-        navigationOptions:{
-            headerTitle:"Events",
-            headerStyle:{
-                // backgroundColor:"#3671bf",
-                // backgroundColor:
-               
-                
+      navigationOptions: ({navigation})=>{
+      
+      return {
+            headerTitle: 'Events',
+            headerStyle: {
+            // backgroundColor:"#3671bf",
+            // backgroundColor:
             },
             // headerTintColor:"white",
-            headerRight:()=>{
-                return <Icon name="settings" color="rgb(184, 184, 184)" size={25} ></Icon>
+            headerRight: () => {
+            return (
+                <Icon
+                name="settings"
+                onPress={() => {
+                    navigation.toggleDrawer()
+                }}
+                color="rgb(184, 184, 184)"
+                size={25}
+                />
+            );
             },
-            headerRightContainerStyle:{
-                marginHorizontal:20,
-                elevation:15,
-
+            headerRightContainerStyle: {
+            marginHorizontal: 20,
+            elevation: 15,
             },
-            
-           
-           
-            
-        
-        }
-    },
-    
-},{
-
-    defaultNavigationOptions:{
-        headerTitleAlign:"center",
-    
-        
+      }
     }
-})
+
+    
+
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      headerTitleAlign: 'center',
+    },
+  },
+);
 
 export default ManagementStack;

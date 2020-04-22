@@ -9,7 +9,7 @@ import inputStyles from './UIStyles/InputStyles';
 const UIInput = (props)=>{
     
 
-    console.log(props)
+    
     return(
         <Input {...props}  {...inputStyles} placeholderTextColor={"rgba(48, 48, 48,0.4)"}
         

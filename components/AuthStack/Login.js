@@ -1,48 +1,61 @@
 import * as React from 'react';
 
-import {Text,View,Image,StyleSheet,StatusBar, Keyboard} from 'react-native';
+import {Text,View,Image,StyleSheet,StatusBar, Keyboard, AsyncStorage} from 'react-native';
 
-import UIButton from '../UIComponents/UIButton';
-import UIInput from '../UIComponents/UIInput';
+import UIButton from './../../UIComponents/UIButton'
+import UIInput from './../../UIComponents/UIInput';
 import { TouchableWithoutFeedback, TextInput } from 'react-native-gesture-handler';
 
 import {Formik} from 'formik'
+import Axios from 'axios';
+
 const Login = (props) => {
     
     return(
         
         <View style={styles.container} >
             <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
-            <StatusBar backgroundColor="#3671bf"></StatusBar>
+            <StatusBar backgroundColor="#3671bf" barStyle="light-content"></StatusBar>
             
-            <Image  source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
+            <Image  source={require('./../../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
                 <View style={{alignItems:"center"}}>
 
                   
                    <Formik 
                    initialValues={{
-                       roll_no:'',
+                       email:'',
                        password:''
                    }}
 
-                   onSubmit={(data,{setSubmitting})=>{
+                   onSubmit={async(data,{setSubmitting})=>{
                         setSubmitting(true);
-                        //make async call here
-                        console.log(data)
+                    
+                        
+                       Axios.post('http://192.168.0.103:3000/login',{
+                            email:data.email,
+                            password:data.password
+                        }).then(async res=>{console.log(res.data,res.headers["auth-token"])
+                    
+                        await AsyncStorage.setItem('token',res.headers['auth-token']);
+                        console.log('Token set ')
+                        props.navigation.navigate('forgotPassword');
+                    }).catch(error=>console.log(error))
+
+
                         setTimeout(()=>{
                             setSubmitting(false)
-                        },5000)
+                        },5000);
                         
                     }}
 
                     validate={(values)=>{
                         const errors={};
-                        if(values.roll_no.includes(546))
+                        if(values.email.includes(546))
                         {
-                            errors.roll_no = "No 546 is allowed"
+                            errors.email = "No 546 is allowed"
                         }
-                        else if(values.roll_no == ''){
-                            errors.roll_no = "Email is required"
+                        else if(values.email == ''){
+                            errors.email = "Email is required"
                         }
 
 
@@ -59,9 +72,9 @@ const Login = (props) => {
                                 
                                 <UIInput placeholder="Email"
                                     icon_name="mail"
-                                    onChangeText={handleChange("roll_no")}
-                                    onBlur={handleBlur("roll_no")}
-                                    errorMessage={errors.roll_no && touched.roll_no ? errors.roll_no : ''}
+                                    onChangeText={handleChange("email")}
+                                    onBlur={handleBlur("email")}
+                                    errorMessage={errors.email && touched.email ? errors.email : ''}
                                 ></UIInput>
 
                                 <UIInput placeholder="Password"

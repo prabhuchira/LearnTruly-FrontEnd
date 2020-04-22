@@ -1,111 +1,85 @@
 import * as React from 'react';
 
-import {Text, Overlay, Card} from 'react-native-elements';
-
-import { View, Dimensions,  TouchableOpacity } from 'react-native';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-import { createAppContainer } from 'react-navigation';
-import SignUp from '../SignUp';
-import Login from '../Login';
-import ActionButton from 'react-native-action-button'
-import  Icon from 'react-native-vector-icons/Feather';
+import {Overlay} from 'react-native-elements';
+import {View, TouchableOpacity, Text, Button, AsyncStorage} from 'react-native';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Feather';
 import CreateClass from './CreateClass';
-
-
-import LinearGradient from 'react-native-linear-gradient';
 import UICard from '../../UIComponents/UICard';
-import { TouchableNativeFeedback, ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useSelector, useDispatch} from 'react-redux';
 
-const ManagementDashboard = (props) =>{
+const ManagementDashboard = props => {
+  console.log('getting token')
+  AsyncStorage.getItem('token').then(res=>{console.log(res)})
+  const selector = useSelector(state => state);
+  const actionDispatcher = useDispatch();
 
+  const [state, setState] = React.useState(false);
+
+  const [values, setValues] = React.useState([]);
+
+  const [item, selectedItem] = React.useState(0);
+
+  const changeState = () => {
+    setState(!state);
+  };
+
+  const fetchData = () => {
    
+    return async dispatch => {
+      let win = await fetch('https://jsonplaceholder.typicode.com/todos/1');
 
-    const [state,setState] = React.useState(false);
+      dispatch({
+        type: 'FETCH_DATA',
+        data: win.data,
+      });
+    };
+  };
 
-    const [values,setValues] = React.useState([]);
-    
-    const [item,selectedItem] = React.useState(0);
+  return (
+    <View style={{flex: 1, backgroundColor: 'white'}}>
+      <Overlay isVisible={state} onBackdropPress={changeState} height={490}>
+        <CreateClass closeModal={changeState} />
+      </Overlay>
 
-    const changeState = () => {
-       
-        setState(!state);
-        
-    }
+      {values.length >= 0 ? (
+        <ScrollView>
+          {values.map((item, index) => {
+            return (
+              <TouchableOpacity activeOpacity={0.6}>
+                <UICard
+                  key={index}
+                  className={item.className}
+                  facultyName={item.facultyName}
+                  no_of_students={item.no_of_students}
+                  year={item.year}
+                  edit={() => {
+                    changeState();
+                  }}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      ) : null}
 
-    const getValue = (val) => {
-        console.log("before")
-        console.log(values)
+      <Button onPress={() => actionDispatcher(fetchData())} title="drone" />
 
-        setValues(
-         [...values,val]
-        )
+      <Text>{JSON.stringify(selector)}</Text>
 
-        console.log('after')
-        console.log(values)
-    }
-
-    return(
-
-
-       
-
-
-        <View style={{flex:1,backgroundColor:"white"}}>
-      
-            
-        <Overlay isVisible={state} onBackdropPress={changeState}
-        
-                height={490}
-        
-        
-        >
-            <CreateClass closeModal={changeState}></CreateClass>
-        </Overlay>
-              
-
-      
-        
-
-            {
-                values.length >= 0 ?
-                <ScrollView>
-                    {values.map((item,index)=>{
-
-
-
-                        return   (
-                        <TouchableOpacity activeOpacity={0.6} >
-                            <UICard key={index} className={item.className} facultyName={item.facultyName} no_of_students={item.no_of_students} year={item.year} 
-                                edit={()=>{   changeState();}}>
-                            </UICard>
-                         </TouchableOpacity>
-                        )
-
-                    })}
-
-              
-               
-                </ScrollView>
-            :
-            null
-            }
-
-
-
-
-
-
-
-
-
-            <ActionButton buttonColor={"#56667A"} renderIcon={()=><Icon name="plus"  color="white" size={25}></Icon>} >
-                <ActionButton.Item buttonColor='#3671bf'  title="Create Class" onPress={()=>setState(true)}>
-                    <Icon name="mail" color="white" size={20}></Icon>
-                </ActionButton.Item>
-            </ActionButton>
-      
-        </View>
-    )
-}
+      <ActionButton
+        buttonColor={'#56667A'}
+        renderIcon={() => <Icon name="plus" color="white" size={25} />}>
+        <ActionButton.Item
+          buttonColor="#3671bf"
+          title="Create Class"
+          onPress={() => setState(true)}>
+          <Icon name="mail" color="white" size={20} />
+        </ActionButton.Item>
+      </ActionButton>
+    </View>
+  );
+};
 
 export default ManagementDashboard;

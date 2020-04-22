@@ -3,6 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack'
 import Login from './Login';
 import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
+// import ManagementDashboard from '../Dashboard/ManagementDashboard';
 
 
 const LoginStack = createStackNavigator({

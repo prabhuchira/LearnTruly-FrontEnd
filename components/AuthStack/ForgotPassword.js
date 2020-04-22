@@ -1,21 +1,22 @@
 import * as React from 'react';
 
-import {Text,View,Image,StyleSheet,StatusBar, Keyboard} from 'react-native';
+import {Text,View,Image,StyleSheet,StatusBar, Keyboard, AsyncStorage} from 'react-native';
 
-import UIButton from '../UIComponents/UIButton';
-import UIInput from '../UIComponents/UIInput';
+import UIButton from './../../UIComponents/UIButton';
+import UIInput from './../../UIComponents/UIInput';
 import { TouchableWithoutFeedback, TextInput } from 'react-native-gesture-handler';
 
 import {Formik} from 'formik'
 const ForgotPassword = (props) => {
-    
+    console.log('Token get ')
+    AsyncStorage.getItem('token').then(res=>console.log(res))
     return(
         
         <View style={styles.container} >
             <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
             <StatusBar backgroundColor="#3671bf"></StatusBar>
             
-            <Image  source={require('./../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
+            <Image  source={require('./../../assets/images/Logo-wo-background.png')} resizeMode="center" style={styles.logo} />
                 <View style={{alignItems:"center"}}>
 
                   
@@ -60,7 +61,7 @@ const ForgotPassword = (props) => {
 
 
                                 <UIButton disabled={(!isValid || isSubmitting)} onPress={handleSubmit}title="RESET"  ></UIButton>
-                                <Text >{JSON.stringify(values,null,2)}</Text>
+                                {/* <Text >{JSON.stringify(values,null,2)}</Text> */}
                                 </View>
                                
                            )

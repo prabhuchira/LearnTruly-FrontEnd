@@ -1,44 +1,32 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
   StatusBar,
-  Button,
+  Text
 } from 'react-native';
 
 
-import Stack from './screens/stack';
-import Tabs from './screens/tabs';
-
-
-
-import {Image} from 'react-native';
-import Login from './components/Login';
-import LoginStack from './components/LoginStack';
-import DashboardStack from './components/Dashboard/DashboardTabs';
+import { Provider } from 'react-redux';
+import Store from './redux/store';
+import LoginStack from './components/AuthStack/LoginStack'
 
 const App = (props) => {
 
+
+
   return (
-    <View style={styles.container}>
+      <Provider store={Store}>
+        <View style={styles.container}>
 
 
-    <StatusBar backgroundColor="white" barStyle="dark-content"></StatusBar>
-      {/* <LoginStack></LoginStack> */}
-      <DashboardStack></DashboardStack>
+          <StatusBar backgroundColor="white" barStyle="dark-content"></StatusBar>
+          <LoginStack></LoginStack>
+          {/* <Text>Drone</Text> */}
 
-    </View>
+        </View>
+        </Provider>
   )
 }
 
@@ -60,4 +48,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default App;
+export default  App;

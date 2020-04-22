@@ -1,0 +1,11 @@
+//Server address : http://192.168.0.103:3000/
+
+1. At initial start LoginRequest,Login,Signup;
+2. if management 
+    get invite code from server;
+3. Record Data
+
+
+//Debug Problem in ForgotPassword
+
+
