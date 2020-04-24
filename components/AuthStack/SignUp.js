@@ -82,8 +82,7 @@ const SignUp = props => {
                }
                 
 
-                // console.log(data);
-                await Axios.post('http://192.168.0.103:3000/signup',container).then(res=>{
+                await Axios.post('http://192.168.0.100:3000/signup',container).then(res=>{
                     let val = isString(res.data);
                     if(val){
                         Empty = () =><Text style={{color:"white"}}>{res.data}</Text>
@@ -97,7 +96,7 @@ const SignUp = props => {
                         
                     }
                 
-                }).catch((e)=>console.log(e))
+                }).catch((e)=>console.log(e));
 
              
                   setSubmitting(false);
@@ -106,50 +105,50 @@ const SignUp = props => {
               validate={values => {
                 const errors = {};
                 
-                // if (values.selectCourse == 'student')
-                //   if (values.student_id === '')
-                //     errors.student_id = 'Student ID is required';
+                if (values.selectCourse == 'student')
+                  if (values.student_id === '')
+                    errors.student_id = 'Student ID is required';
 
-                // if (values.selectCourse == 'faculty')
-                //   if (values.staff_id === '')
-                //     errors.staff_id = 'Staff ID is required';
+                if (values.selectCourse == 'faculty')
+                  if (values.staff_id === '')
+                    errors.staff_id = 'Staff ID is required';
 
-                // if (values.selectCourse == 'management')
-                //   if (values.management_id === '')
-                //     errors.management_id = 'Management ID is required';
+                if (values.selectCourse == 'management')
+                  if (values.management_id === '')
+                    errors.management_id = 'Management ID is required';
 
-                // if (values.fullname === '') {
-                //   errors.fullname = 'Full name is required';
-                // } else if (values.fullname.length < 14) {
-                //   errors.fullname = 'Should be more than 14 characters';
-                // }
+                if (values.fullname === '') {
+                  errors.fullname = 'Full name is required';
+                } else if (values.fullname.length < 14) {
+                  errors.fullname = 'Should be more than 14 characters';
+                }
 
-                // if (!values.email.includes('@gmail.com')) {
-                //   errors.email = 'Not a valid email';
-                // } else if (values.email === '') {
-                //   errors.email = 'email name is required';
-                // }
+                if (!values.email.includes('@gmail.com')) {
+                  errors.email = 'Not a valid email';
+                } else if (values.email === '') {
+                  errors.email = 'email name is required';
+                }
 
-                // if (values.phone_no.length > 12) {
-                //   errors.phone_no = 'Cant exceed more than 12 digits';
-                // } else if (values.phone_no === '') {
-                //   errors.phone_no = 'Phone number is required';
-                // }
+                if (values.phone_no.length > 12) {
+                  errors.phone_no = 'Cant exceed more than 12 digits';
+                } else if (values.phone_no === '') {
+                  errors.phone_no = 'Phone number is required';
+                }
 
-                // if (values.roll_no === '') {
-                //   errors.roll_no = 'Roll No number is required';
-                // }
+                if (values.roll_no === '') {
+                  errors.roll_no = 'Roll No number is required';
+                }
 
-                // if (values.password === '') {
-                //   errors.password = 'Address number is required';
-                // }
+                if (values.password === '') {
+                  errors.password = 'Address number is required';
+                }
 
                 
-                // if (values.aadhar_no === '') {
-                //     errors.aadhar_no = 'Aadhar_no number is required';
-                // }
-                //   else if (values.aadhar_no.length !== 12  )
-                //   errors.aadhar_no = 'Aadhar_no requires 12 digits';
+                if (values.aadhar_no === '') {
+                    errors.aadhar_no = 'Aadhar_no number is required';
+                }
+                  else if (values.aadhar_no.length !== 12  )
+                  errors.aadhar_no = 'Aadhar_no requires 12 digits';
 
                 return errors;
               }}>
@@ -313,7 +312,7 @@ const SignUp = props => {
                     <Empty></Empty>
 
                     <UIButton
-                      // disabled={!isValid || isSubmitting}
+                      disabled={!isValid || isSubmitting}
                       onPress={()=>handleSubmit()}
                       title="SIGNUP"
                     />

@@ -6,10 +6,31 @@ import UIButton from './../../UIComponents/UIButton';
 import UIInput from './../../UIComponents/UIInput';
 import { TouchableWithoutFeedback, TextInput } from 'react-native-gesture-handler';
 
+
+
 import {Formik} from 'formik'
+// import { useDispatch,useSelector } from 'react-redux';
+// import {getUserToken} from './../../actions/actions';
+
 const ForgotPassword = (props) => {
-    console.log('Token get ')
-    AsyncStorage.getItem('token').then(res=>console.log(res))
+    // const checkToken = useDispatch();
+    const  [tokenThere,setTokenThere] = React.useState("not there") 
+
+  
+
+    // React.useEffect(()=>{
+    //  checkToken(getUserToken());
+        
+
+    // console.log(state.token.token,"wonderful")
+    //     if(state.token.token){
+    //         setTokenThere("there")
+    //     }
+
+    // },[])
+
+    const Empty = ()=><Text>{tokenThere}</Text>
+
     return(
         
         <View style={styles.container} >
@@ -62,6 +83,7 @@ const ForgotPassword = (props) => {
 
                                 <UIButton disabled={(!isValid || isSubmitting)} onPress={handleSubmit}title="RESET"  ></UIButton>
                                 {/* <Text >{JSON.stringify(values,null,2)}</Text> */}
+                                <Empty></Empty>
                                 </View>
                                
                            )

@@ -7,39 +7,37 @@ import Icon from 'react-native-vector-icons/Feather';
 import CreateClass from './CreateClass';
 import UICard from '../../UIComponents/UICard';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useSelector, useDispatch} from 'react-redux';
+import { removeUserToken } from '../../actions/actions';
+import { useDispatch } from 'react-redux';
+// import {useSelector, useDispatch} from 'react-redux';
+
 
 const ManagementDashboard = props => {
-  console.log('getting token')
-  AsyncStorage.getItem('token').then(res=>{console.log(res)})
-  const selector = useSelector(state => state);
-  const actionDispatcher = useDispatch();
+  // console.log('getting token')
 
-  const [state, setState] = React.useState(false);
+
+  const _signOutAsync = async () => {
+    await AsyncStorage.clear();
+   props.navigation.navigate('Auth');
+  };
+
+  const [state, setState] = React.useState(true); //set to false
 
   const [values, setValues] = React.useState([]);
 
-  const [item, selectedItem] = React.useState(0);
 
   const changeState = () => {
     setState(!state);
   };
 
-  const fetchData = () => {
-   
-    return async dispatch => {
-      let win = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+  React.useEffect(()=>{
+    console.log('windows');
+  },[])
 
-      dispatch({
-        type: 'FETCH_DATA',
-        data: win.data,
-      });
-    };
-  };
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      <Overlay isVisible={state} onBackdropPress={changeState} height={490}>
+      <Overlay isVisible={state} onBackdropPress={changeState} height={530}>
         <CreateClass closeModal={changeState} />
       </Overlay>
 
@@ -64,9 +62,9 @@ const ManagementDashboard = props => {
         </ScrollView>
       ) : null}
 
-      <Button onPress={() => actionDispatcher(fetchData())} title="drone" />
+      {/* <Button onPress={_signOutAsync} title="drone" /> */}
 
-      <Text>{JSON.stringify(selector)}</Text>
+      {/* <Text>{JSON.stringify(selector)}</Text> */}
 
       <ActionButton
         buttonColor={'#56667A'}

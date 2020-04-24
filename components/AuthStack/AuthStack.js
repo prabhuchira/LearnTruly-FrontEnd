@@ -3,10 +3,11 @@ import {createStackNavigator} from 'react-navigation-stack'
 import Login from './Login';
 import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
-// import ManagementDashboard from '../Dashboard/ManagementDashboard';
 
 
-const LoginStack = createStackNavigator({
+
+
+const AuthStack = createStackNavigator({
     login:{
         screen:Login,
         navigationOptions:{
@@ -14,7 +15,8 @@ const LoginStack = createStackNavigator({
         }
     },
     signup:SignUp,
-    forgotPassword:ForgotPassword
+    forgotPassword:ForgotPassword,
+    
 },{
 
     defaultNavigationOptions:{
@@ -28,4 +30,4 @@ const LoginStack = createStackNavigator({
     }
 })
 
-export default createAppContainer(LoginStack);
+export default createAppContainer(AuthStack);

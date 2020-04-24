@@ -9,3 +9,10 @@
 //Debug Problem in ForgotPassword
 
 
+post classes to classes endpoint by property className:a,b,c,d;
+when clicked add class 
+
+if upon clicking on one of the class common 
+a modal should appear asking for student details (createStudent);
+
+when click add student it should add 
