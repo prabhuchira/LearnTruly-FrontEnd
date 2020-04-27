@@ -1,8 +1,14 @@
-import Redux, {createStore, applyMiddleware} from 'redux';
+import * as Redux from 'redux';
+import classesReducer from './reducers/classesReducer';
 import thunk from 'redux-thunk';
+import modalReducer from './reducers/modalReducer';
+import studentReducer from './reducers/studentsReducer';
+import getRequestsReducer from './reducers/getRequestsReducer';
 
-import reducers from './../reducers/reducers'
 
-const Store = createStore(reducers, applyMiddleware(thunk));
+let cr = Redux.combineReducers({classes:classesReducer,modal:modalReducer,getStudents:studentReducer,getRequests:getRequestsReducer});
 
-export default Store;
+
+const store = Redux.createStore(cr,Redux.applyMiddleware(thunk));
+
+export default store;

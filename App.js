@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {StyleSheet, View, StatusBar, Text} from 'react-native';
 
 import {Provider} from 'react-redux';
-import Store from './redux/store';
+// import Store from './redux/store';
 import AuthStack from './components/AuthStack/AuthStack';
 import AppTabs from './components/AppStack/AppTabs';
 import AuthLoadingScreen from './components/AuthLoadingScreen/AuthLoadingScreen';
 import FullStack from './components/FullStack';
-
+import Store from './redux/store';
 
 
 
@@ -18,8 +18,9 @@ const App = props => {
         <StatusBar backgroundColor="white" barStyle="dark-content" />
         {/* <AuthLoadingScreen></AuthLoadingScreen> */}
 
-        {/* <FullStack></FullStack> */}
-        <AppTabs></AppTabs>
+        <FullStack></FullStack>
+        {/* <AppTabs></AppTabs> */}
+        {/* <CreateStudent></CreateStudent> */}
       </View>
     </Provider>
   );

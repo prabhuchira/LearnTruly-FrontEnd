@@ -16,3 +16,5 @@ if upon clicking on one of the class common
 a modal should appear asking for student details (createStudent);
 
 when click add student it should add 
+
+//Add snackbar 

@@ -1,28 +1,23 @@
 import * as React from 'react';
 import {createAppContainer, NavigationActions} from 'react-navigation';
-import ManagementDashboard from './ManagementDashboard';
 import {createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Feather';
 import { View } from 'react-native';
-import GetStudents from './getStudents';
+import GetAllStudentRequests from './GetAllStudentRequests';
 
 
-const AppStack = createStackNavigator(
+const GetAllStudentStack = createStackNavigator(
   {
-    events: {
-      screen: ManagementDashboard,
-    },
-
-    getStudents:{
-      screen:GetStudents
+    getAllRequests:{
+      screen:GetAllStudentRequests
     }
   },
   {
-   
+   initialRouteName:"getAllRequests",
     defaultNavigationOptions: {
       headerTitleAlign: 'center',
     },
   },
 );
 
-export default AppStack;
+export default GetAllStudentStack;

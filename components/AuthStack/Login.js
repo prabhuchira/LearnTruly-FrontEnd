@@ -63,7 +63,7 @@ const Login = props => {
                       <Text style={{color: 'white'}}>{res.data}</Text>
                     );
                   }
-                  _signInAsync(res.headers['auth-token']);
+                  _signInAsync(res.headers['auth-token']); //here token is coming from server
                 })
                 .catch(error => console.log(error));
 
@@ -124,7 +124,7 @@ const Login = props => {
                   onPress={handleSubmit}
                   title="LOGIN"
                 />
-                <UIButton onPress={_signOutAsync} title="Remove Token" />
+                {/* <UIButton onPress={_signOutAsync} title="Remove Token" /> */}
                 {/* <UIButton  onPress={()=>dispatch(removeUserToken())}title="LOGIN"  ></UIButton> */}
               </View>
             )}

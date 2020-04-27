@@ -4,28 +4,45 @@ import UIInput from '../../UIComponents/UIInput';
 
 
 import {Input,Button,Slider,Text} from 'react-native-elements'
-import {  View} from 'react-native';
+import {  View, AsyncStorage} from 'react-native';
 import UIButton from '../../UIComponents/UIButton';
 import {ButtonGroup} from 'react-native-elements'
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { PUSH_CLASS_FUNC } from '../../redux/actions/actions';
 
 const CreateClass = (props) => {
     const [state,setState] = React.useState(0);
     const buttons = ["Ist","IInd","IIIrd","IVth"];
-
+    const dispatch = useDispatch();
 
     const postData = async(data) => {
         console.log(data,"wj")
         try{
-            
-                await Axios.post("http://192.168.0.103:3000/createClasses",{
+            let token = await AsyncStorage.getItem('loginToken')
+                await Axios.post("http://192.168.0.100:3000/createClasses",{
                 className:data.className,facultyName:data.facultyName,no_of_students:data.no_of_students,year:data.year,  selectBranch:data.selectBranch
-            });
+               
+            },{
+                headers:{
+                    "Auth-Token":token
+                }
+            }
+           
+            ).then((res)=>
+            {   console.log(res.data,"drone")
+                dispatch(PUSH_CLASS_FUNC(res.data))
+            }
+            
+            
+            )
+            ;
+           
             // console.log(res);
         }
         catch(e){
-            // throw new Error(e);
+            throw new Error(e);
         }
     } 
 
@@ -43,7 +60,7 @@ const CreateClass = (props) => {
         branch: 'Student',
       });
 
-
+      
     return(
       
        <Formik initialValues={initialValues} 
@@ -151,7 +168,7 @@ const CreateClass = (props) => {
                         <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider>
                     
                         <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text>
-                        <Button disabled={!isValid} title="ADD CLASS" buttonStyle={buttonStyles2.buttonStyle} titleStyle={buttonStyles2.titleStyle} onPress={
+                        <Button disabled={!isValid} title="ADD CLASSS" buttonStyle={buttonStyles2.buttonStyle} titleStyle={buttonStyles2.titleStyle} onPress={
                             ()=>{
                             handleSubmit();
                            

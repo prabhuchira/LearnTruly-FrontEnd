@@ -83,7 +83,7 @@ const ForgotPassword = (props) => {
 
                                 <UIButton disabled={(!isValid || isSubmitting)} onPress={handleSubmit}title="RESET"  ></UIButton>
                                 {/* <Text >{JSON.stringify(values,null,2)}</Text> */}
-                                <Empty></Empty>
+                                {/* <Empty></Empty> */}
                                 </View>
                                
                            )

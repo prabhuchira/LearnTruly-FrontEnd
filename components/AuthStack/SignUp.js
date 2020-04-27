@@ -8,7 +8,7 @@ import {
   Keyboard,
   Text,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
 
 import UIButton from './../../UIComponents/UIButton';
@@ -17,13 +17,37 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Formik, isString, isObject, ErrorMessage} from 'formik';
 
 import {Picker} from '@react-native-community/picker';
-import Axios from 'axios'
+import Axios from 'axios';
 const SignUp = props => {
   const [state, setState] = React.useState({
     language: 'Student',
   });
 
- let Empty = ()=><Text style={{color:"white"}}></Text>
+  const [branch, setBranch] = React.useState({
+    branch: 'CSE',
+  });
+
+  const [year, setYear] = React.useState({
+    year: 'Ist Year',
+  });
+
+  let branches = [
+    {viewValue: 'CSE', value: 'cse'},
+    {viewValue: 'ECE', value: 'ece'},
+    {viewValue: 'EEE', value: 'eee'},
+    {viewValue: 'IT', value: 'it'},
+    {viewValue: 'Mechanical', value: 'mech'},
+    {viewValue: 'Civil', value: 'civil'},
+  ];
+
+  let years = [
+    {viewValue: 'Ist Year', value: '0'},
+    {viewValue: 'IInd Year', value: '1'},
+    {viewValue: 'IIIrd Year', value: '2'},
+    {viewValue: "IVth Year", value: '3'},
+  ];
+
+  let Empty = () => <Text style={{color: 'white'}} />;
 
   return (
     <ScrollView style={{backgroundColor: '#3671bf'}}>
@@ -49,106 +73,115 @@ const SignUp = props => {
                 email: '',
                 password: '',
                 phone_no: 0,
-                password:''
+                password: '',
+                section: '',
+                selectBranch: '0',
+                selectYear:'0'
               }}
-              onSubmit={async(data, {setSubmitting}) => {
+              onSubmit={async (data, {setSubmitting}) => {
                 setSubmitting(true);
                 //make async call here
-                console.log(data.student_id);
+                console.log(data);
 
                 const allItems = {
-                    
-                    fullname:data.fullname,
-                    aadhar_no:data.aadhar_no,
-                    selectCourse:data.selectCourse,
-                    roll_no:data.roll_no,
-                    email:data.email,
-                    password:data.password,
-                    phone_no:data.phone_no,
-                    
-
-                 }
+                  fullname: data.fullname,
+                  aadhar_no: data.aadhar_no,
+                  selectCourse: data.selectCourse,
+                  roll_no: data.roll_no,
+                  email: data.email,
+                  password: data.password,
+                  phone_no: data.phone_no,
+                  section: data.section,
+                  selectYear:data.selectYear,
+                  selectBranch:data.selectBranch
+                  
+                };
                 let container = {};
 
+                if (data.student_id !== '') {
+                  container = {student_id: data.student_id, ...allItems};
+                } else if (data.staff_id !== '') {
+                  container = {staff_id: data.staff_id, ...allItems};
+                } else {
+                  container = {management_id: data.management_id, ...allItems};
+                }
 
-               if(data.student_id !== ''){
-                    container = {student_id:data.student_id,...allItems}
-               }
-               else if(data.staff_id !== ''){
-                   container = {staff_id:data.staff_id,...allItems}
-               }
-               else{
-                   container = {management_id:data.management_id,...allItems}
-               }
-                
-
-                await Axios.post('http://192.168.0.100:3000/signup',container).then(res=>{
+                await Axios.post('http://192.168.0.100:3000/signup', container)
+                  .then(res => {
+                    console.log(res.data, 'dro');
                     let val = isString(res.data);
-                    if(val){
-                        Empty = () =><Text style={{color:"white"}}>{res.data}</Text>
+                    if (val) {
+                      Empty = () => (
+                        <Text style={{color: 'white'}}>{res.data}</Text>
+                      );
+                    } else {
+                      Alert.alert(
+                        'Registered Successfully',
+                        'Login with your details',
+                        [
+                          {
+                            text: 'Ok',
+                            onPress: () => props.navigation.navigate('login'),
+                          },
+                        ],
+                      );
+                      Empty = () => <Text style={{color: 'white'}} />;
                     }
-                    else{
-                        Alert.alert('Registered Successfully',"Login with your details",[{
-                            text:"Ok",
-                            onPress:()=>props.navigation.navigate('login')
-                        }])
-                        Empty = () =><Text style={{color:"white"}}></Text>
-                        
-                    }
-                
-                }).catch((e)=>console.log(e));
+                  })
+                  .catch(e => console.log(e));
 
-             
-                  setSubmitting(false);
-             
+                setSubmitting(false);
               }}
               validate={values => {
                 const errors = {};
-                
-                if (values.selectCourse == 'student')
-                  if (values.student_id === '')
-                    errors.student_id = 'Student ID is required';
 
-                if (values.selectCourse == 'faculty')
-                  if (values.staff_id === '')
-                    errors.staff_id = 'Staff ID is required';
+                // if (values.selectCourse == 'student')
+                //   if (values.student_id === '')
+                //     errors.student_id = 'Student ID is required';
 
-                if (values.selectCourse == 'management')
-                  if (values.management_id === '')
-                    errors.management_id = 'Management ID is required';
+                // if (values.selectCourse == 'faculty')
+                //   if (values.staff_id === '')
+                //     errors.staff_id = 'Staff ID is required';
 
-                if (values.fullname === '') {
-                  errors.fullname = 'Full name is required';
-                } else if (values.fullname.length < 14) {
-                  errors.fullname = 'Should be more than 14 characters';
-                }
+                // if (values.selectCourse == 'management')
+                //   if (values.management_id === '')
+                //     errors.management_id = 'Management ID is required';
 
-                if (!values.email.includes('@gmail.com')) {
-                  errors.email = 'Not a valid email';
-                } else if (values.email === '') {
-                  errors.email = 'email name is required';
-                }
+                // if (values.fullname === '') {
+                //   errors.fullname = 'Full name is required';
+                // } else if (values.fullname.length < 14) {
+                //   errors.fullname = 'Should be more than 14 characters';
+                // }
 
-                if (values.phone_no.length > 12) {
-                  errors.phone_no = 'Cant exceed more than 12 digits';
-                } else if (values.phone_no === '') {
-                  errors.phone_no = 'Phone number is required';
-                }
+                // if (!values.email.includes('@gmail.com')) {
+                //   errors.email = 'Not a valid email';
+                // } else if (values.email === '') {
+                //   errors.email = 'email name is required';
+                // }
 
-                if (values.roll_no === '') {
-                  errors.roll_no = 'Roll No number is required';
-                }
+                // if (values.phone_no.length > 12) {
+                //   errors.phone_no = 'Cant exceed more than 12 digits';
+                // } else if (values.phone_no === '') {
+                //   errors.phone_no = 'Phone number is required';
+                // }
 
-                if (values.password === '') {
-                  errors.password = 'Address number is required';
-                }
+                // if (values.roll_no === '') {
+                //   errors.roll_no = 'Roll No number is required';
+                // }
 
-                
-                if (values.aadhar_no === '') {
-                    errors.aadhar_no = 'Aadhar_no number is required';
-                }
-                  else if (values.aadhar_no.length !== 12  )
-                  errors.aadhar_no = 'Aadhar_no requires 12 digits';
+                // if (values.password === '') {
+                //   errors.password = 'Address number is required';
+                // }
+
+                // if (values.section === '') {
+                //   errors.section = 'Section is required';
+                // }
+
+                // if (values.aadhar_no === '') {
+                //     errors.aadhar_no = 'Aadhar_no number is required';
+                // }
+                //   else if (values.aadhar_no.length !== 12  )
+                //   errors.aadhar_no = 'Aadhar_no requires 12 digits';
 
                 return errors;
               }}>
@@ -181,14 +214,13 @@ const SignUp = props => {
                         onValueChange={(itemValue, itemIndex) => {
                           setFieldValue('selectCourse', itemValue);
                           setState({language: itemValue});
-                          values.staff_id = '',
-                          values.student_id = '',
-                          values.management_id = '';
+                          (values.staff_id = ''),
+                            (values.student_id = ''),
+                            (values.management_id = '');
                         }}
                         hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
                         onPress={event => {
-                        //   console.log(event);
-                         
+                          //   console.log(event);
                         }}>
                         <Picker.Item label="Student" value="student" />
                         <Picker.Item label="Faculty" value="faculty" />
@@ -196,6 +228,70 @@ const SignUp = props => {
                       </Picker>
                     </View>
 
+
+                    {values.selectCourse == "student" ?
+                        <View>
+                        <View style={styles.pickerStyles}>
+                        <Picker
+                          style={{color: 'rgba(48, 48, 48,0.7)', fontSize: 23}}
+                          mode="dialog"
+                          placeholder="Branch"
+                          selectedValue={branch.branch}
+                          prompt="Be careful you cant change it again!"
+                          onValueChange={(itemValue, itemIndex) => {
+                            setFieldValue('selectBranch', itemValue);
+                            setBranch({branch: itemValue});
+                          }}
+                          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                          onPress={event => {
+                            //   console.log(event);
+                          }}>
+                          {branches.map(item => {
+                            return (
+                              <Picker.Item
+                                label={item.viewValue}
+                                value={item.value}
+                              />
+                            );
+                          })}
+                        </Picker>
+                        </View>
+                        
+                        <View style={styles.pickerStyles}>
+                        <Picker
+                          style={{color: 'rgba(48, 48, 48,0.7)', fontSize: 23}}
+                          mode="dialog"
+                          placeholder="Year"
+                          selectedValue={year.year}
+                          prompt="Be careful you cant change it again!"
+                          onValueChange={(itemValue, itemIndex) => {
+                            setFieldValue('selectYear', itemValue);
+                            setYear({year: itemValue});
+                          }}
+                          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                          onPress={event => {
+                            //   console.log(event);
+                          }}>
+                          {years.map(item => {
+                            return (
+                              <Picker.Item
+                                label={item.viewValue}
+                                value={item.value}
+                              />
+                            );
+                          })}
+                        </Picker>
+                      </View>
+                      </View>
+                      
+  
+                      :null
+                  
+                    }
+
+                   
+
+                   
                     {values.selectCourse == 'student' ? (
                       <UIInput
                         placeholder="Student ID "
@@ -269,6 +365,18 @@ const SignUp = props => {
                         errors.email && touched.email ? errors.email : ''
                       }
                     />
+                  {values.selectCourse == 'student' ? 
+                    <UIInput
+                      placeholder="Section"
+                      icon_name="briefcase"
+                      onChangeText={handleChange('section')}
+                      onBlur={handleBlur('section')}
+                      errorMessage={
+                        errors.section && touched.section ? errors.section : ''
+                      }
+                    />
+                    :null
+                  }
 
                     <UIInput
                       placeholder="Password"
@@ -276,7 +384,9 @@ const SignUp = props => {
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
                       errorMessage={
-                        errors.password && touched.password ? errors.password : ''
+                        errors.password && touched.password
+                          ? errors.password
+                          : ''
                       }
                     />
 
@@ -307,18 +417,14 @@ const SignUp = props => {
                       }
                     />
 
-                        
-
-                    <Empty></Empty>
+                    <Empty />
 
                     <UIButton
                       disabled={!isValid || isSubmitting}
-                      onPress={()=>handleSubmit()}
+                      onPress={() => handleSubmit()}
                       title="SIGNUP"
                     />
                     <View style={{flexDirection: 'row', marginVertical: 0}}>
-                  
-                  
                       <Text style={{color: 'white'}}>
                         Already have an Account?
                       </Text>

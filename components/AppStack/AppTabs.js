@@ -7,6 +7,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Text, View, Dimensions } from 'react-native';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import AppStack from './AppStack';
+import GetAllStudentStack from '../GetAllStudentRequests/GetAllStudentStack';
 
 
 const Tabs = createBottomTabNavigator({
@@ -17,9 +18,20 @@ const Tabs = createBottomTabNavigator({
             tabBarIcon:()=>{
                 return <Icon name="list" size={20}> </Icon>
             },
-            tabBarLabel:"Dashboard"
+            tabBarLabel:"Classes"
         }
     },
+    requests:{
+        screen:GetAllStudentStack,
+        navigationOptions:{
+            tabBarIcon:()=>{
+                return <Icon name="git-pull-request" size={20}> </Icon>
+            },
+            tabBarLabel:"Account Requests"
+        }
+       
+    }
+    
     
     },
     {
