@@ -10,6 +10,8 @@ import AppStack from './AppStack';
 import GetAllStudentStack from '../GetAllStudentRequests/GetAllStudentStack';
 
 
+
+
 const Tabs = createBottomTabNavigator({
     
     management:{
@@ -43,26 +45,7 @@ const Tabs = createBottomTabNavigator({
 )
 
 
-// const Tabs = createMaterialTopTabNavigator({
-    
-//     login:{
-//         screen:StudentDashboard,
-//         navigationOptions:{
-//             tabBarIcon:()=>{
-//                 return <Icon name="list" size={20}> </Icon>
-//             },
-//             tabBarLabel:"Attendance"
-//         }
-        
-//     },
-//     signup:SignUp
-//     },
-// {
-//     tabBarOptions:{
-//         inactiveBackgroundColor:"#3671bf",
-//         activeTintColor:"black"
-// }
-// })
+
 
 
 

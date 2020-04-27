@@ -98,13 +98,13 @@ const ManagementDashboard = props => {
     
 
       <ActionButton
-        buttonColor={'#56667A'}
-        renderIcon={() => <Icon name="plus" color="white" size={25} />}>
+        buttonColor={'white'}
+        renderIcon={() => <Icon name="plus" color="#3671bf" size={25} />}>
         <ActionButton.Item
-          buttonColor="#3671bf"
+          buttonColor="white"
           title="Create Class"
           onPress={() => setState(true)}>
-          <Icon name="mail" color="white" size={20} />
+          <Icon name="mail" color="#3671bf" size={20} />
         </ActionButton.Item>
       </ActionButton>
     </View>
