@@ -16,10 +16,13 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Formik, isString} from 'formik';
 import DeviceInfo from 'react-native-device-info'
 import Axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const Login = props => {
+
+  const dispatch = useDispatch();
   React.useEffect(()=>{
-    DeviceInfo.getSerialNumber().then(res=>console.log(res))
+    // DeviceInfo.getSerialNumber().then(res=>console.log(res))
   })
   const _signInAsync = async data => {
     await AsyncStorage.setItem('loginToken', data);
@@ -57,6 +60,8 @@ const Login = props => {
                 password: data.password,
               })
                 .then(res => {
+                  dispatch({type:"GET_USER_ACCOUNT",data:res.data})
+                  
                   let val = isString(res.data);
                   if (val) {
                     Empty = () => (

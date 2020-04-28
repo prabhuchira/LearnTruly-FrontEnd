@@ -5,7 +5,6 @@ import {createAppContainer} from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
 
 function Home (props){
-    console.log('loner')
     return(
             <View style={{flex:1}}>
                  <Button title="lemon" onPress={()=>{props.navigation.navigate('seven')}}></Button>

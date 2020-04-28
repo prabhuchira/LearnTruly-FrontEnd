@@ -50,7 +50,6 @@ const ForgotPassword = (props) => {
                    onSubmit={(data,{setSubmitting})=>{
                         setSubmitting(true);
                         //make async call here
-                        console.log(data)
                         setTimeout(()=>{
                             setSubmitting(false)
                         },5000)

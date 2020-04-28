@@ -6,24 +6,25 @@ import * as React from 'react';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Text, View, Dimensions } from 'react-native';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
-import AppStack from './AppStack';
+
 import GetAllStudentStack from '../GetAllStudentRequests/GetAllStudentStack';
+import FacultyStack from './FacultyStack';
 
 
 
 
 const Tabs = createBottomTabNavigator({
     
-    management:{
-        screen:AppStack,
+    faculty:{
+        screen:FacultyStack,
         navigationOptions:{
             tabBarIcon:()=>{
                 return <Icon name="list" size={20}> </Icon>
             },
-            tabBarLabel:"Classes"
+            tabBarLabel:"Faculty"
         }
     },
-    requests:{
+    requests2:{
         screen:GetAllStudentStack,
         navigationOptions:{
             tabBarIcon:()=>{

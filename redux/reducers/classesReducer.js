@@ -15,7 +15,6 @@ const classesReducer = (state = classes,action) =>{
     }
     
     if(action.type==PUSH_CLASS){
-        console.log('Push classes');
         
         return  [...state,action.data];
     }

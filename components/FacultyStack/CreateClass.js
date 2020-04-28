@@ -18,7 +18,6 @@ const CreateClass = (props) => {
     const dispatch = useDispatch();
 
     const postData = async(data) => {
-        console.log(data,"wj")
         try{
             let token = await AsyncStorage.getItem('loginToken')
                 await Axios.post("http://192.168.0.100:3000/createClasses",{
@@ -31,7 +30,7 @@ const CreateClass = (props) => {
             }
            
             ).then((res)=>
-            {   console.log(res.data,"drone")
+            {   
                 dispatch(PUSH_CLASS_FUNC(res.data))
             }
             
@@ -68,7 +67,6 @@ const CreateClass = (props) => {
        onSubmit={
            (data)=>{
             
-            console.log(data);
             postData(data);
           
            props.closeModal();

@@ -81,7 +81,6 @@ const SignUp = props => {
               onSubmit={async (data, {setSubmitting}) => {
                 setSubmitting(true);
                 //make async call here
-                console.log(data);
 
                 const allItems = {
                   fullname: data.fullname,
@@ -108,7 +107,6 @@ const SignUp = props => {
 
                 await Axios.post('http://192.168.0.100:3000/signup', container)
                   .then(res => {
-                    console.log(res.data, 'dro');
                     let val = isString(res.data);
                     if (val) {
                       Empty = () => (

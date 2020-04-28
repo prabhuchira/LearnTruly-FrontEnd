@@ -7,9 +7,17 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+
+
+
 
 class AuthLoadingScreen extends React.Component {
+
+  
+
   componentDidMount() {
+    console.log(this.props.getAccount,"AuthLoadingScreen");
     this._bootstrapAsync();
   }
 
@@ -19,8 +27,14 @@ class AuthLoadingScreen extends React.Component {
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
+    // await Axios.get('/getUser',
+   
+
     this.props.navigation.navigate(userToken ? 'App' : 'Auth');
   };
+
+
+  
 
   // Render any loading content that you like here
   render() {
@@ -43,4 +57,9 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AuthLoadingScreen;
+const mapStateToProps = state => {
+  return {
+    getAccount:state.getUser
+  }
+}
+export default connect(mapStateToProps,null)(AuthLoadingScreen);

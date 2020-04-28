@@ -4,15 +4,16 @@ import {Overlay, ListItem, Button} from 'react-native-elements';
 import {View, TouchableOpacity, Text,AsyncStorage, ActivityIndicator, Dimensions} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Feather';
+import CreateClass from './CreateClass';
 import UICard from '../../UIComponents/UICard';
 import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import {GET_ALL_REQUESTS_FUNC,APPROVE_REQUEST_FUNC} from '../../redux/actions/actions';
+import { GET_STUDENTS_FUNC,ACTIVATE_USER} from '../../redux/actions/actions';
 import LinearGradient from 'react-native-linear-gradient';
 // import {useSelector, useDispatch} from 'react-redux';
 import TouchableScale from 'react-native-touchable-scale'
 
-const GetAllStudentRequests = props => {
+const GetStudents = props => {
   // console.log('getting token')
   // console.log(props)
   const win = useSelector(state=>state);
@@ -39,13 +40,18 @@ const GetAllStudentRequests = props => {
 
   const [isLoading,setIsLoading] = React.useState(true);
 
+
+  const changeState = () => {
+    setState(!state);
+  };
+
   React.useEffect(()=>{
-    
-    const getRequests = async ()=>{
-      let requests = await  dispatch(GET_ALL_REQUESTS_FUNC())
+
+    const getClasses = async ()=>{
+      await  dispatch(GET_STUDENTS_FUNC(props.navigation.getParam('className'),props.navigation.getParam('selectBranch')))
       setIsLoading(false);
    }
-   getRequests();
+    getClasses();
     
  
   },[]);
@@ -70,10 +76,10 @@ const GetAllStudentRequests = props => {
 
       
 
-      {win.getRequests.length > 0 ? (
+      {win.getStudents.length >= 0 ? (
 
 
-          win.getRequests.map((item,index)=>{
+          win.getStudents.map((item,index)=>{
 
            
         
@@ -94,9 +100,8 @@ const GetAllStudentRequests = props => {
             }}
 
             onPress={()=>{ 
-              dispatch(APPROVE_REQUEST_FUNC(item,index)) //send activated/or not data  to update this user to activate and render again 
+              dispatch(ACTIVATE_USER(item,index)) //send activated/or not data  to update this user to activate and render again 
              }}
-
             title={()=>{
               return (
                 <View>
@@ -120,7 +125,6 @@ const GetAllStudentRequests = props => {
             }}
             // titleStyle={{ color: 'white', fontWeight: 'bold' }}
             subtitleStyle={{ color: 'white' }}
-            
             // subtitle={item.roll_no}
             chevron= {()=>{
               
@@ -141,7 +145,7 @@ const GetAllStudentRequests = props => {
           })
 
 
-      ) : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}><Text style={{fontFamily:"Montserrat-Light",fontSize:20}}>No Requests</Text></View>}
+      ) : <Loading></Loading>}
 
       {/* <Button onPress={()=>_signOutAsync() } title="drone" />  */}
         
@@ -153,14 +157,51 @@ const GetAllStudentRequests = props => {
   );
 };
 
-GetAllStudentRequests['navigationOptions'] = (props) => {
+GetStudents['navigationOptions'] = (props) => {
   return {
-    headerTitle: "Student Requests",
-    
-    
+    headerTitle: `Class - ${props.navigation.getParam('className')} Students`,
+    headerStyle: {
+      // backgroundColor:"#3671bf",
+      // backgroundColor:
+    },
+    // headerTintColor:"white",
+    headerRight: () => {
+      // console.log(props,"muther")
+      return (
+        <View style={{flexDirection:"row",padding:10}}>
+           <Icon
+          name="sync"
+          onPress={() => {
+            // useDispatch(GET_CLASSES_FUNC())
+            // console.log('mist')
+          }}
+          color="rgb(184, 184, 184)"
+          size={25}
+          style={{marginHorizontal:20}}
+        />
+
+
+        <Icon
+          name="settings"
+          onPress={() => {
+            // navigation.toggleDrawer();
+          }}
+          color="rgb(184, 184, 184)"
+          size={25}
+         
+        />
+         
+
+        </View>
+      );
+    },
+    headerRightContainerStyle: {
+      marginHorizontal: 20,
+      elevation: 15,
+    },
   
   };
 }
 
 
-export default GetAllStudentRequests;
+export default GetStudents;

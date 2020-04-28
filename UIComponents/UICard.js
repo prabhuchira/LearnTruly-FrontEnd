@@ -13,8 +13,6 @@ const UICard = (props) => {
     React.useEffect(()=>{
         
         
-        console.log(props)
-        // selectedColor=
     })
 
     return (

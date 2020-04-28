@@ -15,10 +15,8 @@ export const PUSH_CLASS_FUNC = (data) => ({
 
 export const GET_CLASSES_FUNC = () => {
     
-    console.log('windows')
     return async dispatch => {
        let token = await AsyncStorage.getItem('loginToken');
-       console.log(token)
         await Axios.get('http://192.168.0.100:3000/getClasses',{headers:{
             "Auth-Token":token
         }}).then(
@@ -34,10 +32,8 @@ export const GET_CLASSES_FUNC = () => {
 
 export const GET_STUDENTS_FUNC = (className,selectBranch) => {
     
-    console.log('windows')
     return async dispatch => {
        let token = await AsyncStorage.getItem('loginToken');
-       console.log(token)
         await Axios.get('http://192.168.0.100:3000/getStudents',{headers:{
             "Auth-Token":token,
             "className":className,
@@ -89,7 +85,6 @@ export const GET_ALL_REQUESTS_FUNC = () => {
    
     return async dispatch => {
        let token = await AsyncStorage.getItem('loginToken');
-       console.log(token)
         await Axios.get('http://192.168.0.100:3000/getAllRequests',{headers:{
             "Auth-Token":token
             
@@ -110,7 +105,6 @@ export const APPROVE_REQUEST_FUNC = (item,index) => {
    
     return async dispatch => {
        let token = await AsyncStorage.getItem('loginToken');
-       console.log(token)
         await Axios.post('http://192.168.0.100:3000/approveRequest',{
             activate_id:item._id
         },{headers:{
