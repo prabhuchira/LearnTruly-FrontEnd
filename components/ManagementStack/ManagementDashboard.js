@@ -75,6 +75,8 @@ const ManagementDashboard = props => {
                   year={item.year}
                   edit={() => {
                     // changeState();
+                    console.log(item.className,"from dashboard");
+                    console.log(item.selectBranch,"from dashboard")
                   
                     props.navigation.navigate('getStudents',{className:item.className,selectBranch:item.selectBranch})
                   }}

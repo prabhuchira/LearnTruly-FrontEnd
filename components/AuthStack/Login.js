@@ -17,6 +17,7 @@ import {Formik, isString} from 'formik';
 import DeviceInfo from 'react-native-device-info'
 import Axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { GET_USER_ACCOUNT_FUNC } from '../../redux/actions/actions';
 
 const Login = props => {
 
@@ -55,12 +56,15 @@ const Login = props => {
             onSubmit={async (data, {setSubmitting}) => {
               setSubmitting(true);
 
-              Axios.post('http://192.168.0.100:3000/login', {
+              Axios.post('http://192.168.0.101:3000/login', {
                 email: data.email,
                 password: data.password,
               })
                 .then(res => {
-                  dispatch({type:"GET_USER_ACCOUNT",data:res.data})
+                  
+                  
+                  dispatch(GET_USER_ACCOUNT_FUNC(res.data));
+                  
                   
                   let val = isString(res.data);
                   if (val) {

@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import AuthLoadingScreen from './AuthLoadingScreen/AuthLoadingScreen';
 import AuthStack from './AuthStack/AuthStack';
 import { useSelector } from 'react-redux';
-import { View,ActivityIndicator,StatusBar } from 'react-native';
+import { View,ActivityIndicator,StatusBar, AsyncStorage } from 'react-native';
 
 // Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
 // goes here.
@@ -17,19 +17,38 @@ import ManagementTabs from './ManagementStack/ManagementTabs';
 
 
 const TestingComponent = (props) =>{
-  const selector = useSelector(state=>state.getUser); 
-  React.useEffect(()=>{
 
+
+//  await AsyncStorage.clear()
+
+  console.log('App')
+  const selector = useSelector(state=>state.getUser); 
+  
+  React.useEffect(()=>{
+    // let course = "student";
+    const clearToken = async() => {
+       let course = await AsyncStorage.getItem('myaccount');
+      // console.log(course)
+      //  course = await AsyncStorage.clear();
+      if(selector.selectCourse == "faculty" || course=="faculty"){
+        props.navigation.navigate('Faculty')
+      }
+      else if(selector.selectCourse == "student" || course=="student"){
+        props.navigation.navigate('Student')
+      }
+      else if(selector.selectCourse =="management" ||course=="management"){
+        props.navigation.navigate('Management')
+      }
+
+
+      return course;
+
+
+    }
+
+    clearToken();
     
-    if(selector.selectCourse == "faculty"){
-      props.navigation.navigate('Faculty')
-    }
-    else if(selector.selectCourse == "student"){
-      props.navigation.navigate('Student')
-    }
-    else{
-      props.navigation.navigate('Management')
-    }
+
     
   })
 

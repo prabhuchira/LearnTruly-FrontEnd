@@ -10,42 +10,49 @@ import {ButtonGroup} from 'react-native-elements'
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { PUSH_CLASS_FUNC } from '../../redux/actions/actions';
+import { PUSH_EVENT_FUNC } from '../../redux/actions/actions';
 
-const CreateClass = (props) => {
+const CreateEvent = (props) => {
     const [state,setState] = React.useState(0);
     const buttons = ["Ist","IInd","IIIrd","IVth"];
     const dispatch = useDispatch();
 
     const postData = async(data) => {
-        try{
-            let token = await AsyncStorage.getItem('loginToken')
-                await Axios.post("http://192.168.0.100:3000/createClasses",{
-                className:data.className,facultyName:data.facultyName,no_of_students:data.no_of_students,year:data.year,  selectBranch:data.selectBranch
+        console.log(data)
+        
+        // try{
+        //     let token = await AsyncStorage.getItem('loginToken')
+        //     await Axios.post("http://192.168.0.101:3000/createEvent",{
+        //         topicName:data.topicName,className:data.className,selectBranch:data.selectBranch,selectYear:data.selectYear
                
-            },{
-                headers:{
-                    "Auth-Token":token
-                }
-            }
+        //     },{
+        //         headers:{
+        //             "Auth-Token":token
+        //         }
+        //     }
            
-            ).then((res)=>
-            {   
-                dispatch(PUSH_CLASS_FUNC(res.data))
-            }
+        //     )
+        //     ;
+
             
             
-            )
-            ;
+              
+                
+            
+            
+            
+            
            
-            // console.log(res);
-        }
-        catch(e){
-            throw new Error(e);
-        }
+        //     // console.log(res);
+        // }
+        // catch(e){
+        //     throw new Error(e);
+        // }
+
+        dispatch(PUSH_EVENT_FUNC(data))
     } 
 
-    let initialValues = {className:"",facultyName:"",no_of_students:0,year:0,  selectBranch:'cse',};
+    let initialValues = {topicName:"",className:"",selectYear:0,  selectBranch:0,};
     let branches = [
         {viewValue:'CSE',value:'cse'},
         {viewValue:'ECE',value:'ece'},
@@ -66,8 +73,10 @@ const CreateClass = (props) => {
        
        onSubmit={
            (data)=>{
+               console.log(data);
             
             postData(data);
+
           
            props.closeModal();
         }
@@ -77,6 +86,10 @@ const CreateClass = (props) => {
        
                 validate={values=>{
                     const errors={};  
+                        if(values.topicName === ''){
+                            errors.topicName = "Topic Name is required"
+                        }
+
                         if(values.className === ''){
                             errors.className = "Class Name is required"
                         }
@@ -84,12 +97,10 @@ const CreateClass = (props) => {
                             errors.className = "No spaces"
                         }
 
-                        if(values.facultyName === ''){
-                            errors.facultyName = "Faculty Name is required"
+                        if(values.selectClass === ''){
+                            errors.selectClass = "Class Name is required"
                         }
-                        if(values.no_of_students <= 0){
-                            errors.no_of_students ="Minimum one student is required."
-                        }
+                      
                         return errors;
                     
                     }}
@@ -141,31 +152,31 @@ const CreateClass = (props) => {
                         </View>
                         </View>
 
-                        <Input label={"Class"} placeholder="ClassName" onChangeText={handleChange("className")} onBlur={handleBlur("className")} 
+                        <Input label={"Topic Name"} placeholder="Topic Name" onChangeText={handleChange("topicName")} onBlur={handleBlur("topicName")} 
                         
-                        errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
+                        errorMessage={errors.topicName && touched.topicName ? errors.topicName : ''} errorStyle={{color:"red"}}>
 
                         </Input>
                         <Text></Text>
-                        <Input  label={"Assign Faculty"} placeholder="Faculty name" onChangeText={handleChange("facultyName")} onBlur={handleBlur("facultyName")} 
+                        <Input  label={"ClassName"} placeholder="Class" onChangeText={handleChange("className")} onBlur={handleBlur("className")} 
                         
-                        errorMessage={errors.facultyName && touched.facultyName ? errors.facultyName : ''} errorStyle={{color:"red"}}>
+                        errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
 
                         </Input>
 
                         <View style={{marginTop:20}}>
                             <Text style={{marginLeft:10,fontSize:16}}>Year:</Text>
-                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#3671bf"}} selectedIndex={values.year} buttons={buttons} containerStyle={{width:300}} onPress={(selectedIndex)=>
-                                setFieldValue('year',selectedIndex)
+                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#3671bf"}} selectedIndex={values.selectYear} buttons={buttons} containerStyle={{width:300}} onPress={(selectedIndex)=>
+                                setFieldValue('selectYear',selectedIndex)
                             }>
                     
                             </ButtonGroup>
 
                          </View>
                         
-                        <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider>
+                        {/* <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider> */}
                     
-                        <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text>
+                        {/* <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text> */}
                         <Button disabled={!isValid} title="ADD CLASSS" buttonStyle={buttonStyles2.buttonStyle} titleStyle={buttonStyles2.titleStyle} onPress={
                             ()=>{
                             handleSubmit();
@@ -184,7 +195,7 @@ const CreateClass = (props) => {
     )
 }
 
-export default CreateClass;
+export default CreateEvent;
 
 const buttonStyles2 = {
     buttonStyle:{

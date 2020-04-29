@@ -4,11 +4,11 @@ import {Overlay} from 'react-native-elements';
 import {View, TouchableOpacity, Text, Button, AsyncStorage, ActivityIndicator} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Feather';
-import CreateClass from './CreateClass';
-import UICard from '../../UIComponents/UICard';
+import CreateEvent from './CreateEvent';
+import UIEventCard from '../../UIComponents/UIEventCard';
 import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_CLASSES_FUNC } from '../../redux/actions/actions';
+import { GET_EVENTS_FUNC } from '../../redux/actions/actions';
 // import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -46,7 +46,7 @@ const FacultyDashboard = props => {
   React.useEffect(()=>{
     
     const getClasses = async ()=>{
-      await  dispatch(GET_CLASSES_FUNC());
+      await  dispatch(GET_EVENTS_FUNC());
       setIsLoading(false);
    }
     getClasses();
@@ -58,25 +58,26 @@ const FacultyDashboard = props => {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Overlay isVisible={state} onBackdropPress={changeState} height={530}>
-        <CreateClass closeModal={changeState} />
+        <CreateEvent closeModal={changeState} />
       </Overlay>
 
-      {win.classes.length >= 0 ? (
-        <ScrollView>
-          {win.classes.map((item, index) => {
+
+      {win.events.length >= 0 ? (
+        <ScrollView style={{marginTop:10}}>
+          {win.events.map((item, index) => {
+            console.log(item);
             return (
               <TouchableOpacity activeOpacity={0.6}>
-                <UICard
+                <UIEventCard
                   key={index}
                   className={item.className}
-                  facultyName={item.facultyName}
-                  no_of_students={item.no_of_students}
+                  topicName={item.topicName}
                   selectBranch={item.selectBranch}
-                  year={item.year}
+                  year={item.selectYear}
                   edit={() => {
                     // changeState();
                   
-                    props.navigation.navigate('getStudents',{className:item.className,selectBranch:item.selectBranch})
+                    // props.navigation.navigate('getStudents2',{className:item.className,selectBranch:item.selectBranch})
                   }}
                 />
               </TouchableOpacity>

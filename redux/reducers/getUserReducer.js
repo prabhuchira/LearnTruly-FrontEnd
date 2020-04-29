@@ -1,3 +1,5 @@
+
+
 const account = {
    
 };
@@ -12,6 +14,7 @@ const getUserReducer = (state = account,action) =>{
         // console.log("DRONE")
         // console.log(action.data,"mycroft");
         console.log(action.data,"GET_USER");
+        
          return action.data
     }
 

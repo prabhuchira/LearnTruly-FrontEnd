@@ -4,7 +4,7 @@ import StudentDashboard from './StudentDashboard';
 import {createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Feather';
 import { View } from 'react-native';
-import GetStudents from './getStudents3';
+import GetStudents3 from './getStudents3';
 
 
 const StudentStack = createStackNavigator(
@@ -14,7 +14,7 @@ const StudentStack = createStackNavigator(
     },
 
     getStudents:{
-      screen:GetStudents
+      screen:GetStudents3
     }
   },
   {

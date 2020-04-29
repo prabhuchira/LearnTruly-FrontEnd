@@ -4,7 +4,7 @@ import {Overlay, ListItem, Button} from 'react-native-elements';
 import {View, TouchableOpacity, Text,AsyncStorage, ActivityIndicator, Dimensions} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Feather';
-import CreateClass from './CreateClass';
+
 import UICard from '../../UIComponents/UICard';
 import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 // import {useSelector, useDispatch} from 'react-redux';
 import TouchableScale from 'react-native-touchable-scale'
 
-const GetStudents = props => {
+const GetStudents3 = props => {
   // console.log('getting token')
   // console.log(props)
   const win = useSelector(state=>state);
@@ -157,7 +157,7 @@ const GetStudents = props => {
   );
 };
 
-GetStudents['navigationOptions'] = (props) => {
+GetStudents3['navigationOptions'] = (props) => {
   return {
     headerTitle: `Class - ${props.navigation.getParam('className')} Students`,
     headerStyle: {
@@ -204,4 +204,4 @@ GetStudents['navigationOptions'] = (props) => {
 }
 
 
-export default GetStudents;
+export default GetStudents3;

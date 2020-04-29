@@ -48,6 +48,8 @@ const GetStudents = props => {
   React.useEffect(()=>{
 
     const getClasses = async ()=>{
+      console.log(props.navigation.getParam('className'),"to getStudents");
+      console.log(props.navigation.getParam('selectBranch'),"to getStudents")
       await  dispatch(GET_STUDENTS_FUNC(props.navigation.getParam('className'),props.navigation.getParam('selectBranch')))
       setIsLoading(false);
    }
@@ -76,7 +78,7 @@ const GetStudents = props => {
 
       
 
-      {win.getStudents.length >= 0 ? (
+      {win.getStudents.length > 0 ? (
 
 
           win.getStudents.map((item,index)=>{
