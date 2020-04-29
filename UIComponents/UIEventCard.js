@@ -2,8 +2,9 @@ import * as React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { View, Dimensions } from 'react-native';
 
+
 import {Text, Badge} from 'react-native-elements';
-import  Icon  from 'react-native-vector-icons/Feather';
+
 
 
 const UIEventCard = (props) => {
@@ -112,6 +113,9 @@ const UIEventCard = (props) => {
                 </Text>
               </View>
             </View>
+
+               
+            
 
             {/* <View
               style={{

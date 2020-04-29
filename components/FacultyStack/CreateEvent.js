@@ -4,7 +4,7 @@ import UIInput from '../../UIComponents/UIInput';
 
 
 import {Input,Button,Slider,Text} from 'react-native-elements'
-import {  View, AsyncStorage} from 'react-native';
+import {  View, AsyncStorage, Keyboard, Dimensions} from 'react-native';
 import UIButton from '../../UIComponents/UIButton';
 import {ButtonGroup} from 'react-native-elements'
 import {Picker} from '@react-native-community/picker';
@@ -12,47 +12,21 @@ import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { PUSH_EVENT_FUNC } from '../../redux/actions/actions';
 
+import DateTimePicker from "@react-native-community/datetimepicker"
+
 const CreateEvent = (props) => {
     const [state,setState] = React.useState(0);
     const buttons = ["Ist","IInd","IIIrd","IVth"];
     const dispatch = useDispatch();
+    const [date, setDate] = React.useState(new Date());
+    const [mode, setMode] = React.useState('date');
+    const [show, setShow] = React.useState(false);
 
     const postData = async(data) => {
-        console.log(data)
-        
-        // try{
-        //     let token = await AsyncStorage.getItem('loginToken')
-        //     await Axios.post("http://192.168.0.101:3000/createEvent",{
-        //         topicName:data.topicName,className:data.className,selectBranch:data.selectBranch,selectYear:data.selectYear
-               
-        //     },{
-        //         headers:{
-        //             "Auth-Token":token
-        //         }
-        //     }
-           
-        //     )
-        //     ;
-
-            
-            
-              
-                
-            
-            
-            
-            
-           
-        //     // console.log(res);
-        // }
-        // catch(e){
-        //     throw new Error(e);
-        // }
-
         dispatch(PUSH_EVENT_FUNC(data))
     } 
 
-    let initialValues = {topicName:"",className:"",selectYear:0,  selectBranch:0,};
+    let initialValues = {topicName:"",className:"",selectYear:0,  selectBranch:0,dateAndTime:date};
     let branches = [
         {viewValue:'CSE',value:'cse'},
         {viewValue:'ECE',value:'ece'},
@@ -66,6 +40,26 @@ const CreateEvent = (props) => {
         branch: 'Student',
       });
 
+
+      const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+        
+      };
+    
+      const showMode = currentMode => {
+        setShow(true);
+        setMode(currentMode);
+      };
+    
+      const showDatepicker = () => {
+        showMode('date');
+      };
+    
+      const showTimepicker = () => {
+        showMode('time');
+      };
       
     return(
       
@@ -74,8 +68,9 @@ const CreateEvent = (props) => {
        onSubmit={
            (data)=>{
                console.log(data);
-            
-            postData(data);
+            //    console.log(data)
+                console.log(date)
+            postData({...data,dateAndTime:date.toString()});
 
           
            props.closeModal();
@@ -108,7 +103,7 @@ const CreateEvent = (props) => {
            {
                ({values,isValid,touched,handleChange,handleBlur,setFieldValue,handleSubmit,errors})=>(
                     // <UIInput placeholder="ClassName" onChange={handleChange} onBlur={handleBlur}></UIInput>
-                    <View style={{alignItems:"stretch",flex:1}}>
+                    <View style={{alignItems:"stretch",flex:1,justifyContent:"center",marginHorizontal:10}}>
                  <Text
                     style={{textAlign: 'left',fontSize:16,fontWeight:"bold", marginLeft: 10, color: "rgba(48, 48, 48,0.5)"}}>
                     Register as{' '}
@@ -163,10 +158,47 @@ const CreateEvent = (props) => {
                         errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
 
                         </Input>
+                        <View style={{marginTop:20,flexDirection:"column",justifyContent:"center",alignItems:"stretch"}}>
+                            {/* <Input  label={"Date"}   placeholder="Date and Time"  onChangeText={handleChange("dateAndTime")}  onBlur={handleBlur("dateAndTime")}   value={dateAndTime.toLocaleString()} style={{marginTop:20}}
+                            
+                            errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
 
-                        <View style={{marginTop:20}}>
+                            </Input> */}
+{/* value={dateAndTime.toLocaleString()}  */}
+                            {/* <Text style={{fontSize:20,marginBottom:20,textAlign:"center",color:"#919292"}}>{date.toLocaleString()}</Text> */}
+{/* 
+                            <View style={{flex:1,marginLeft:15,justifyContent:"center"}}>
+
+                            
+                            </View> */}
+                            <View style={{flexDirection:"row",alignItems:"stretch",justifyContent:"space-evenly"}}>
+                            <Button  title="Set Date" onPress={showDatepicker} buttonStyle={{width:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
+                            <Button title="Set Time" onPress={showTimepicker} buttonStyle={{minWidth:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
+                            </View>
+                        </View>    
+
+                        <Text>{date.toString()}</Text>                    
+
+                        { show ?  
+
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        timeZoneOffsetInMinutes={0}
+                        value={date}
+                        mode={mode}
+                            
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                        />
+                      : null}
+                        
+
+
+
+                        <View style={{marginTop:20,alignItems:"center",flexDirection:"row"}}>
                             <Text style={{marginLeft:10,fontSize:16}}>Year:</Text>
-                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#3671bf"}} selectedIndex={values.selectYear} buttons={buttons} containerStyle={{width:300}} onPress={(selectedIndex)=>
+                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#26a1f5"}} selectedIndex={values.selectYear} buttons={buttons} containerStyle={{width:300}} onPress={(selectedIndex)=>
                                 setFieldValue('selectYear',selectedIndex)
                             }>
                     
@@ -203,7 +235,7 @@ const buttonStyles2 = {
             width:null,
             height:50,
             elevation:1,
-            backgroundColor:"#3671bf",
+            backgroundColor:"#26a1f5",
             marginVertical:30,
             
     },
@@ -216,7 +248,7 @@ const buttonStyles2 = {
     },
 
     pickerStyles: {
-        width: 300,
+        width: Dimensions.get('screen').width - 60,
         height: 50,
         backgroundColor: 'white',
         marginVertical: 5,

@@ -57,7 +57,7 @@ const FacultyDashboard = props => {
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      <Overlay isVisible={state} onBackdropPress={changeState} height={530}>
+      <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
         <CreateEvent closeModal={changeState} />
       </Overlay>
 
@@ -99,11 +99,16 @@ const FacultyDashboard = props => {
     
 
       <ActionButton
-        buttonColor={'white'}
-        renderIcon={() => <Icon name="plus" color="#3671bf" size={25} />}>
+        buttonColor={'grey'}
+        // elevation={10}
+        buttonTextStyle={{elevation:4}}
+        
+        
+
+        renderIcon={() => <Icon name="plus" color="white"  size={25} />}>
         <ActionButton.Item
           buttonColor="white"
-          title="Create Class"
+          title="Create Event"
           onPress={() => setState(true)}>
           <Icon name="mail" color="#3671bf" size={20} />
         </ActionButton.Item>
