@@ -18,6 +18,7 @@ import {Formik, isString, isObject, ErrorMessage} from 'formik';
 
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
+import {getUniqueId} from   "react-native-device-info"
 const SignUp = props => {
   const [state, setState] = React.useState({
     language: 'Student',
@@ -48,6 +49,11 @@ const SignUp = props => {
   ];
 
   let Empty = () => <Text style={{color: 'white'}} />;
+
+  React.useEffect(()=>{
+    let a = getUniqueId()
+    console.log(a);
+  },[])
 
   return (
     <ScrollView style={{backgroundColor: '#3671bf'}}>
@@ -98,7 +104,7 @@ const SignUp = props => {
                 let container = {};
 
                 if (data.student_id !== '') {
-                  container = {student_id: data.student_id, ...allItems};
+                  container = {student_id: data.student_id, ...allItems,registeredPhoneId:getUniqueId()};
                 } else if (data.staff_id !== '') {
                   container = {staff_id: data.staff_id, ...allItems};
                 } else {

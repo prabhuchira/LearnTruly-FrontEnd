@@ -9,6 +9,8 @@ import UICard from '../../UIComponents/UICard';
 import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_CLASSES_FUNC } from '../../redux/actions/actions';
+import { getDeviceId, getUniqueId } from 'react-native-device-info';
+import Axios from 'axios';
 // import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -46,14 +48,45 @@ const StudentDashboard = props => {
   React.useEffect(()=>{
 
     
-    console.log(win.getUser)
+    const getAccount = async() => {
+      try{
+        let token = await AsyncStorage.getItem('loginToken');
+        let user = await Axios.get('http://192.168.0.101:3000/getUser',
+        {
+          headers:{
+            "auth-token":token
+          }
+        }
+        
+        )
 
-    if(!win.getUser.isActivated){
-      Alert.alert("Account Not Activated","Please consult your management to get your account activated or if Locked.",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
+        console.log(user.data,"GET ACCOUNT");
+
+        if(!user.data.isActivated){
+          Alert.alert("Account Not Activated","Please consult your management to get your account activated or if Locked.",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
+        }
+        console.log(getUniqueId())
+        if(user.data.registeredPhoneId !== getUniqueId()){
+          console.log(user.data.registeredPhoneId);
+          console.log(getDeviceId());
+          Alert.alert("Phone changed ?","Consult Management.",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
+        }
+    
+      }
+      catch(e){
+        throw new Error(e);
+      }
+     
     }
 
+    getAccount();
+
+    // if(win.getUser.registeredPhoneId == getDeviceId()){
+    //   Alert.alert('Phone changed !'," Consult Management to change your phone",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
+    // }
 
     
+
     const getClasses = async ()=>{
       await  dispatch(GET_CLASSES_FUNC());
       setIsLoading(false);

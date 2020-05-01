@@ -8,16 +8,18 @@ import {
   StatusBar,
   Keyboard,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 
 import UIButton from './../../UIComponents/UIButton';
 import UIInput from './../../UIComponents/UIInput';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Formik, isString} from 'formik';
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo, { getDeviceId } from 'react-native-device-info'
 import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { GET_USER_ACCOUNT_FUNC } from '../../redux/actions/actions';
+
 
 const Login = props => {
 
@@ -61,6 +63,15 @@ const Login = props => {
                 password: data.password,
               })
                 .then(res => {
+                  
+                  console.log(res.data,"asdsd");
+
+                  if(res.data.selectCourse=="student"){
+                     if(res.data.isActivated){
+                       props.navigation.navigate('Login')
+                     }
+                  }
+              
                   
                   
                   dispatch(GET_USER_ACCOUNT_FUNC(res.data));

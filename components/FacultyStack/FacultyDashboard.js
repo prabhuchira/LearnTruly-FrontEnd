@@ -87,7 +87,7 @@ const FacultyDashboard = props => {
       ) : <Loading></Loading>}
 
       
-      {/* <Button onPress={()=>_signOutAsync() } title="drone" /> */}
+      <Button onPress={()=>_signOutAsync() } title="drone" />
         
         
         
