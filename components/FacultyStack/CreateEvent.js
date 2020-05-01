@@ -12,7 +12,8 @@ import Axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { PUSH_EVENT_FUNC } from '../../redux/actions/actions';
 
-import DateTimePicker from "@react-native-community/datetimepicker"
+import DateTimePicker from "@react-native-community/datetimepicker";
+import {getUniqueId} from   "react-native-device-info"
 
 const CreateEvent = (props) => {
     const [state,setState] = React.useState(0);
