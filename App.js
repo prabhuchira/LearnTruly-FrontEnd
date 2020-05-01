@@ -15,18 +15,18 @@ const App = props => {
   React.useEffect(()=>{
 
 
-  //  setInterval(()=>{
-  //     NetInfo.fetch().then(res=>{
-  //       console.log(res.isConnected)
-  //       if(res.isConnected == false)
-  //       {
-  //         Alert.alert('No internet',"No internet restart app if connected",[{text:"ok",onPress:()=>{}}])
-  //       }
-  //     })
-  //   },10000)
+   setInterval(()=>{
+      NetInfo.fetch().then(res=>{
+        console.log(res.isConnected)
+        if(res.isConnected == false)
+        {
+          Alert.alert('No internet',"No internet restart app if connected",[{text:"ok",onPress:()=>{}}])
+        }
+      })
+    },10000)
 
     
-    // return ()=>clearInterval(interval)
+    return ()=>clearInterval(interval)
     
  
   })
