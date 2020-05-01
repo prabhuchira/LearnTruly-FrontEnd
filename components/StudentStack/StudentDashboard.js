@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Overlay} from 'react-native-elements';
-import {View, TouchableOpacity, Text, Button, AsyncStorage, ActivityIndicator} from 'react-native';
+import {View, TouchableOpacity, Text, Button, AsyncStorage, ActivityIndicator, Alert} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Feather';
 import CreateClass from './CreateClass';
@@ -44,6 +44,15 @@ const StudentDashboard = props => {
   };
 
   React.useEffect(()=>{
+
+    
+    console.log(win.getUser)
+
+    if(!win.getUser.isActivated){
+      Alert.alert("Account Not Activated","Please consult your management to get your account activated or if Locked.",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
+    }
+
+
     
     const getClasses = async ()=>{
       await  dispatch(GET_CLASSES_FUNC());

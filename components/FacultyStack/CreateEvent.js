@@ -159,21 +159,10 @@ const CreateEvent = (props) => {
 
                         </Input>
                         <View style={{marginTop:20,flexDirection:"column",justifyContent:"center",alignItems:"stretch"}}>
-                            {/* <Input  label={"Date"}   placeholder="Date and Time"  onChangeText={handleChange("dateAndTime")}  onBlur={handleBlur("dateAndTime")}   value={dateAndTime.toLocaleString()} style={{marginTop:20}}
-                            
-                            errorMessage={errors.className && touched.className ? errors.className : ''} errorStyle={{color:"red"}}>
-
-                            </Input> */}
-{/* value={dateAndTime.toLocaleString()}  */}
-                            {/* <Text style={{fontSize:20,marginBottom:20,textAlign:"center",color:"#919292"}}>{date.toLocaleString()}</Text> */}
-{/* 
-                            <View style={{flex:1,marginLeft:15,justifyContent:"center"}}>
-
-                            
-                            </View> */}
+                        
                             <View style={{flexDirection:"row",alignItems:"stretch",justifyContent:"space-evenly"}}>
-                            <Button  title="Set Date" onPress={showDatepicker} buttonStyle={{width:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
-                            <Button title="Set Time" onPress={showTimepicker} buttonStyle={{minWidth:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
+                                <Button  title="Set Date" onPress={showDatepicker} buttonStyle={{width:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
+                                <Button title="Set Time" onPress={showTimepicker} buttonStyle={{minWidth:120,backgroundColor:"#26a1f5"}} style={{flex:1}}></Button>
                             </View>
                         </View>    
 

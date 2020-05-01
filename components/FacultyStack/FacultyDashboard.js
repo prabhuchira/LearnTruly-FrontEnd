@@ -56,7 +56,7 @@ const FacultyDashboard = props => {
 
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{flex: 1, backgroundColor: 'white',marginBottom:20}}>
       <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
         <CreateEvent closeModal={changeState} />
       </Overlay>
@@ -86,8 +86,8 @@ const FacultyDashboard = props => {
         </ScrollView>
       ) : <Loading></Loading>}
 
-      {/* <Button onPress={_signOutAsync} title="drone" /> */}
-      <Button onPress={()=>_signOutAsync() } title="drone" />
+      
+      {/* <Button onPress={()=>_signOutAsync() } title="drone" /> */}
         
         
         
