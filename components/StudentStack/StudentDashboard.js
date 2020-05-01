@@ -117,8 +117,7 @@ const StudentDashboard = props => {
                   year={item.year}
                   edit={() => {
                     // changeState();
-                    
-                    props.navigation.navigate('getStudents',{className:item.className,selectBranch:item.selectBranch})
+                    props.navigation.navigate('getStudents3',{className:item.className,selectBranch:item.selectBranch})
                   }}
                 />
               </TouchableOpacity>

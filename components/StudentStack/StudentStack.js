@@ -13,7 +13,7 @@ const StudentStack = createStackNavigator(
       screen: StudentDashboard,
     },
 
-    getStudents:{
+    getStudents3:{
       screen:GetStudents3
     }
   },
