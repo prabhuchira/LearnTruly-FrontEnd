@@ -19,9 +19,12 @@ const CreateEvent = props => {
   const [state, setState] = React.useState(0);
   const buttons = ['Ist', 'IInd', 'IIIrd', 'IVth'];
   const dispatch = useDispatch();
-  const [date, setDate] = React.useState(new Date());
+  const [fromdateAndTime, setfromdateAndTime] = React.useState(new Date());
+  const [todateAndTime, settodateAndTime] = React.useState(new Date());
   const [mode, setMode] = React.useState('date');
+  const [mode2, setMode2] = React.useState('date');
   const [show, setShow] = React.useState(false);
+  const [show2, setShow2] = React.useState(false);
 
   const postData = async data => {
     dispatch(PUSH_EVENT_FUNC(data));
@@ -32,7 +35,8 @@ const CreateEvent = props => {
     className: '',
     selectYear: 0,
     selectBranch: 0,
-    dateAndTime: date,
+    fromdateAndTime: fromdateAndTime,
+    todateAndTime:todateAndTime
   };
   let branches = [
     {viewValue: 'CSE', value: 'cse'},
@@ -50,9 +54,15 @@ const CreateEvent = props => {
   const [locationModal, setLocationModal] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || fromdateAndTime;
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+    setfromdateAndTime(currentDate);
+  };
+
+  const onChange2 = (event, selectedDate) => {
+    const currentDate = selectedDate || fromdateAndTime;
+    setShow2(Platform.OS === 'ios');
+    settodateAndTime(currentDate);
   };
 
   const showMode = currentMode => {
@@ -60,12 +70,24 @@ const CreateEvent = props => {
     setMode(currentMode);
   };
 
+  const showMode2 = currentMode => {
+    setShow2(true);
+    setMode2(currentMode);
+  };
+
   const showDatepicker = () => {
     showMode('date');
   };
 
+  const showDatepicker2 = () => {
+    showMode2('date');
+  };
+
   const showTimepicker = () => {
-    showMode('time');
+    showMode2('time');
+  };
+  const showTimepicker2 = () => {
+    showMode2('time');
   };
 
   const onChangeLocationModal = () => {
@@ -85,8 +107,8 @@ const CreateEvent = props => {
       onSubmit={data => {
         console.log(data);
         //    console.log(data)
-        console.log(date);
-        postData({...data, dateAndTime: date.toString(),location:location});
+        console.log(fromdateAndTime);
+        postData({...data, fromdateAndTime: fromdateAndTime.toString(),todateAndTime:todateAndTime.toString(),location:location});
 
         props.closeModal();
       }}
@@ -219,6 +241,19 @@ const CreateEvent = props => {
             }
             errorStyle={{color: 'red'}}
           />
+            <View
+            style={{marginTop: 20, alignItems: 'center', flexDirection: 'row'}}>
+            <Text style={{marginLeft: 10, fontSize: 16}}>Year:</Text>
+            <ButtonGroup 
+              selectedButtonStyle={{backgroundColor: '#26a1f5'}}
+              selectedIndex={values.selectYear}
+              buttons={buttons}
+              containerStyle={{width: 300}}
+              onPress={selectedIndex =>
+                setFieldValue('selectYear', selectedIndex)
+              }
+            />
+          </View>
           <View
             style={{
               marginTop: 20,
@@ -233,33 +268,51 @@ const CreateEvent = props => {
                 justifyContent: 'space-evenly',
               }}>
               <Button
-                title="Set Date"
+                title="From Date"
                 onPress={showDatepicker}
-                buttonStyle={{width: 120, backgroundColor: '#26a1f5'}}
+                buttonStyle={{width: 100, backgroundColor: '#26a1f5'}}
                 style={{flex: 1}}
               />
-              <Button
-                title="Set Time"
+              <Button 
+                title="Time"
                 onPress={showTimepicker}
-                buttonStyle={{minWidth: 120, backgroundColor: '#26a1f5'}}
+                buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
                 style={{flex: 1}}
               />
               <Button
+                title="To Date"
+                onPress={showDatepicker2}
+                buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
+                style={{flex: 1}}
+              />
+                <Button
+                title="Time"
+                onPress={showTimepicker2}
+                buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
+                style={{flex: 1}}
+              />
+              {/* <Button
                 title="Set Location"
                 onPress={onChangeLocationModal}
                 buttonStyle={{minWidth: 120, backgroundColor: '#26a1f5'}}
                 style={{flex: 1}}
-              />
+              /> */}
             </View>
+            <Button
+                title="Set Location"
+                onPress={onChangeLocationModal}
+                buttonStyle={{minWidth: 120, backgroundColor: '#26a1f5',marginTop:10,marginHorizontal:10}}
+                style={{flex: 1,}}
+              /> 
           </View>
 
-          <Text>{date.toString()}</Text>
+          {/* <Text>{fromdateAndTime.toString()}</Text> */}
 
           {show ? (
             <DateTimePicker
               testID="dateTimePicker"
               timeZoneOffsetInMinutes={0}
-              value={date}
+              value={fromdateAndTime}
               mode={mode}
               is24Hour={true}
               display="default"
@@ -267,19 +320,19 @@ const CreateEvent = props => {
             />
           ) : null}
 
-          <View
-            style={{marginTop: 20, alignItems: 'center', flexDirection: 'row'}}>
-            <Text style={{marginLeft: 10, fontSize: 16}}>Year:</Text>
-            <ButtonGroup
-              selectedButtonStyle={{backgroundColor: '#26a1f5'}}
-              selectedIndex={values.selectYear}
-              buttons={buttons}
-              containerStyle={{width: 300}}
-              onPress={selectedIndex =>
-                setFieldValue('selectYear', selectedIndex)
-              }
+          {show2 ? (
+            <DateTimePicker
+              testID="dateTimePicker"
+              timeZoneOffsetInMinutes={0}
+              value={todateAndTime}
+              mode={mode2}
+              is24Hour={true}
+              display="default"
+              onChange={onChange2}
             />
-          </View>
+          ) : null}
+
+        
 
           {/* <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider> */}
 

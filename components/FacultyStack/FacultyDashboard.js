@@ -58,7 +58,9 @@ const FacultyDashboard = props => {
   return (
     <View style={{flex: 1, backgroundColor: 'white',marginBottom:20}}>
       <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
+        
         <CreateEvent closeModal={changeState} />
+        
       </Overlay>
 
 
@@ -76,7 +78,7 @@ const FacultyDashboard = props => {
                   year={item.selectYear}
                   edit={() => {
                     // changeState();
-                  
+
                     // props.navigation.navigate('getStudents2',{className:item.className,selectBranch:item.selectBranch})
                   }}
                 />
@@ -99,13 +101,9 @@ const FacultyDashboard = props => {
     
 
       <ActionButton
-        buttonColor={'grey'}
+        buttonColor={'#26a1f5'}
         // elevation={10}
-        buttonTextStyle={{elevation:4}}
-        
-        
-
-        renderIcon={() => <Icon name="plus" color="white"  size={25} />}>
+        renderIcon={() => <Icon name="plus" color="white" size={25} />}>
         <ActionButton.Item
           buttonColor="white"
           title="Create Event"
