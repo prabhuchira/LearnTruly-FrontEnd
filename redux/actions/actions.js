@@ -157,6 +157,19 @@ export const MODIFY_EVENT_FUNC = (body) => {
     }
 }
 
+export const DELETE_EVENT_FUNC = (body) => {
+    return async dispatch=>{
+        await Axios.post('http://192.168.0.100:3000/deleteEvent',{
+            ...body
+        }).then(data=>{
+            dispatch({
+                type:"DELETE_EVENT",
+                data:data.data
+            })
+        })
+    }
+}
+
 export const GET_USER_ACCOUNT_FUNC = (body)=>{
     return async dispatch => {
         

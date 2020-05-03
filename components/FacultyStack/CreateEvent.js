@@ -9,12 +9,15 @@ import {ButtonGroup} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {PUSH_EVENT_FUNC,MODIFY_EVENT_FUNC} from '../../redux/actions/actions';
+import {PUSH_EVENT_FUNC,MODIFY_EVENT_FUNC,DELETE_EVENT_FUNC} from '../../redux/actions/actions';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MapView, { Marker } from 'react-native-maps';
 
 import Icon from 'react-native-vector-icons/Feather';
+import LinearGradient from 'react-native-linear-gradient';
+
+
 const CreateEvent = props => {
   const [state, setState] = React.useState(0);
   const buttons = ['Ist', 'IInd', 'IIIrd', 'IVth'];
@@ -33,6 +36,10 @@ const CreateEvent = props => {
   const modifyData = async data=>{
     console.log(data);
     dispatch(MODIFY_EVENT_FUNC(data));
+  }
+
+  const deleteItem = async data => {
+    dispatch(DELETE_EVENT_FUNC(data))
   }
 
   let initialValues = {
@@ -393,15 +400,64 @@ const CreateEvent = props => {
           {/* <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider> */}
 
           {/* <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text> */}
+    
+
+
+          
+
+          {props.editItem !== null ?
+
+            
+<View style={{flexDirection:"row",marginVertical: 30,alignItems:"stretch",justifyContent:"space-evenly"}}>
           <Button
             disabled={!isValid}
             title={props.editItem !== null ? "Save Topic" : "Add Topic"}
             buttonStyle={buttonStyles2.buttonStyle}
             titleStyle={buttonStyles2.titleStyle}
+            linearGradientProps={{
+              colors: ['#279df1', '#465fbe'],
+              start: { x: 0, y: 0.5 },
+              end: { x: 1, y: 1 },
+            }}   ViewComponent={LinearGradient}
             onPress={() => {
               handleSubmit();
             }}
           />
+                  <Button
+                    linearGradientProps={{
+            colors: ['#279df1', '#465fbe'],
+            start: { x: 0, y: 0.5 },
+            end: { x: 1, y: 1 },
+          }}   ViewComponent={LinearGradient}
+                  disabled={!isValid}
+                  title={"Delete"}
+                  buttonStyle={{...buttonStyles2.buttonStyle,backgroundColor:"red",marginVertical:0}}
+                  titleStyle={buttonStyles2.titleStyle}
+                  onPress={() => {
+                    deleteItem(props.editItem);
+                    props.closeModal()
+                  }}
+                  />
+                    </View>
+          
+          :      <Button
+          disabled={!isValid}
+          linearGradientProps={{
+            colors: ['#279df1', '#465fbe'],
+            start: { x: 0, y: 0.5 },
+            end: { x: 1, y: 0.5 },
+          }}   ViewComponent={LinearGradient}
+       
+          title={"Add Topic"}
+          buttonStyle={{...buttonStyles2.buttonStyle,marginVertical:20}}
+          titleStyle={buttonStyles2.titleStyle}
+          onPress={() => {
+            handleSubmit();
+          }}
+        />
+          
+          }
+        
         </View>
       )}
     </Formik>
@@ -412,11 +468,11 @@ export default CreateEvent;
 
 const buttonStyles2 = {
   buttonStyle: {
-    width: null,
+    minWidth: (Dimensions.get('screen').width/3) + 40,
     height: 50,
     elevation: 1,
     backgroundColor: '#26a1f5',
-    marginVertical: 30,
+    
   },
 
   titleStyle: {

@@ -48,6 +48,18 @@ const facultyEventReducer = (state = events,action) =>{
 
     }
 
+    if(action.type == "DELETE_EVENT"){
+        
+        let nonDeletedItems = state.filter(item=>item._id !== action.data.body._id)
+        
+
+
+            
+        return nonDeletedItems;    
+            
+       
+    }
+
     return state;
 }
 
