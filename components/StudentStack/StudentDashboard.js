@@ -51,7 +51,7 @@ const StudentDashboard = props => {
     const getAccount = async() => {
       try{
         let token = await AsyncStorage.getItem('loginToken');
-        let user = await Axios.get('http://192.168.0.101:3000/getUser',
+        let user = await Axios.get('http://192.168.0.100:3000/getUser',
         {
           headers:{
             "auth-token":token

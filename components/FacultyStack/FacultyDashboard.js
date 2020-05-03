@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Overlay} from 'react-native-elements';
-import {View, TouchableOpacity, Text, Button, AsyncStorage, ActivityIndicator} from 'react-native';
+import {View, TouchableOpacity, Text, Button, AsyncStorage, ActivityIndicator, Alert} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Feather';
 import CreateEvent from './CreateEvent';
@@ -38,10 +38,17 @@ const FacultyDashboard = props => {
 
   const [isLoading,setIsLoading] = React.useState(true);
 
+  const [editItem,setEditItem] = React.useState(null);
+  
+  let [num,setNum] = React.useState(0);
 
   const changeState = () => {
     setState(!state);
   };
+
+  const changeEditItem = (data)=>{
+    setEditItem(data);
+  }
 
   React.useEffect(()=>{
     
@@ -54,12 +61,30 @@ const FacultyDashboard = props => {
  
   },[]);
 
+  const changeNum = () => {
+    setNum(num++);
+  }
+
+  React.useEffect(()=>{
+  //   const getClasses = async ()=>{
+  //     await  dispatch(GET_EVENTS_FUNC());
+  //     setIsLoading(false);
+  //  }
+  //   getClasses();
+  const getClasses = async ()=>{
+    await  dispatch(GET_EVENTS_FUNC());
+    setIsLoading(false);
+ }
+  getClasses();
+  console.log('windows')
+  },[num])
+
 
   return (
     <View style={{flex: 1, backgroundColor: 'white',marginBottom:20}}>
       <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
         
-        <CreateEvent closeModal={changeState} />
+        <CreateEvent closeModal={changeState} editItem={editItem}  changeNum={changeNum}/>
         
       </Overlay>
 
@@ -67,9 +92,9 @@ const FacultyDashboard = props => {
       {win.events.length >= 0 ? (
         <ScrollView style={{marginTop:10}}>
           {win.events.map((item, index) => {
-            console.log(item);
+            // console.log(item);
             return (
-              <TouchableOpacity activeOpacity={0.6}>
+              <TouchableOpacity activeOpacity={0.6} onLongPress={() => { setEditItem(item),setState(true)}} >
                 <UIEventCard
                   key={index}
                   className={item.className}
@@ -107,7 +132,7 @@ const FacultyDashboard = props => {
         <ActionButton.Item
           buttonColor="white"
           title="Create Event"
-          onPress={() => setState(true)}>
+          onPress={() => {setEditItem(null);setState(true)}}>
           <Icon name="mail" color="#3671bf" size={20} />
         </ActionButton.Item>
       </ActionButton>

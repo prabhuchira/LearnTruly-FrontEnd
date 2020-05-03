@@ -9,7 +9,7 @@ import {ButtonGroup} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {PUSH_EVENT_FUNC} from '../../redux/actions/actions';
+import {PUSH_EVENT_FUNC,MODIFY_EVENT_FUNC} from '../../redux/actions/actions';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MapView, { Marker } from 'react-native-maps';
@@ -25,10 +25,15 @@ const CreateEvent = props => {
   const [mode2, setMode2] = React.useState('date');
   const [show, setShow] = React.useState(false);
   const [show2, setShow2] = React.useState(false);
-
+  const [isLoading,setLoading] =React.useState(true);
   const postData = async data => {
     dispatch(PUSH_EVENT_FUNC(data));
   };
+
+  const modifyData = async data=>{
+    console.log(data);
+    dispatch(MODIFY_EVENT_FUNC(data));
+  }
 
   let initialValues = {
     topicName: '',
@@ -46,6 +51,18 @@ const CreateEvent = props => {
     {viewValue: 'Mechanical', value: 'mech'},
     {viewValue: 'Civil', value: 'civil'},
   ];
+
+  // React.useEffect(()=>{
+  //   console.log(props.editItem,"dronesss")
+  //   let editedItem = props.editItem;
+  //   // if(props.editItem !== null){
+
+  //     setLoading(false)
+  //   // }
+
+  // },[])
+
+  
 
   const [branch, setBranch] = React.useState({
     branch: 'Student',
@@ -101,14 +118,44 @@ const CreateEvent = props => {
     longitudeDelta: 0.0121,
   });
 
+  // if(isLoading){
+  //   return <Text>Loading</Text>
+  // }
+
+  if(props.editItem !== null){
+    // console.log(props.editItem)
+    initialValues = {
+      topicName: props.editItem.topicName,
+      className: props.editItem.className,
+      selectYear: props.editItem.selectYear,
+      selectBranch: props.editItem.selectBranch,
+      fromdateAndTime: props.editItem.fromdateAndTime,
+      todateAndTime:props.editItem.todateAndTime
+    };
+
+  }
+  React.useEffect(()=>{
+
+    if(props.editItem !== null){
+      
+    setfromdateAndTime(new Date(props.editItem.fromdateAndTime));
+    settodateAndTime(new Date(props.editItem.todateAndTime))
+    }
+    
+
+
+  },[])
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={data => {
-        console.log(data);
+        // console.log(data);
         //    console.log(data)
-        console.log(fromdateAndTime);
-        postData({...data, fromdateAndTime: fromdateAndTime.toString(),todateAndTime:todateAndTime.toString(),location:location});
+        // console.log(fromdateAndTime);
+        
+        props.editItem !== null ?   modifyData({...data,modifyID:props.editItem._id,fromdateAndTime:fromdateAndTime.toString(),todateAndTime:todateAndTime.toString()}) : postData({...data, fromdateAndTime: fromdateAndTime.toString(),todateAndTime:todateAndTime.toString(),location:location});
+        props.changeNum();
 
         props.closeModal();
       }}
@@ -141,6 +188,12 @@ const CreateEvent = props => {
         errors,
       }) => (
         // <UIInput placeholder="ClassName" onChange={handleChange} onBlur={handleBlur}></UIInput>
+
+      
+      
+        
+
+
         <View
           style={{
             alignItems: 'stretch',
@@ -221,6 +274,7 @@ const CreateEvent = props => {
           </View>
 
           <Input
+            defaultValue={initialValues.topicName}
             label={'Topic Name'}
             placeholder="Topic Name"
             onChangeText={handleChange('topicName')}
@@ -232,6 +286,7 @@ const CreateEvent = props => {
           />
           <Text />
           <Input
+          defaultValue={initialValues.className}
             label={'ClassName'}
             placeholder="Class"
             onChangeText={handleChange('className')}
@@ -245,6 +300,7 @@ const CreateEvent = props => {
             style={{marginTop: 20, alignItems: 'center', flexDirection: 'row'}}>
             <Text style={{marginLeft: 10, fontSize: 16}}>Year:</Text>
             <ButtonGroup 
+            
               selectedButtonStyle={{backgroundColor: '#26a1f5'}}
               selectedIndex={values.selectYear}
               buttons={buttons}
@@ -339,7 +395,7 @@ const CreateEvent = props => {
           {/* <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text> */}
           <Button
             disabled={!isValid}
-            title="ADD CLASSS"
+            title={props.editItem !== null ? "Save Topic" : "Add Topic"}
             buttonStyle={buttonStyles2.buttonStyle}
             titleStyle={buttonStyles2.titleStyle}
             onPress={() => {
