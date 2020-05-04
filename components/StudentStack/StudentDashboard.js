@@ -93,8 +93,8 @@ const StudentDashboard = props => {
     //   Alert.alert('Phone changed !'," Consult Management to change your phone",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
     // }
 
+  
     
-
     const getEvents = async ()=>{
       await  dispatch(GET_EVENTS_STUDENTS_FUNC());
       setIsLoading(false);
