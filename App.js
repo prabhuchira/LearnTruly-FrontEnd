@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, StatusBar, Text, Alert} from 'react-native';
+import {StyleSheet, View, StatusBar, Text, Dimensions} from 'react-native';
 
 import {Provider} from 'react-redux';
 import FullStack from './components/FullStack';
 import Store from './redux/store';
 
 import NetInfo from '@react-native-community/netinfo'
+import MapView, { Marker } from 'react-native-maps';
+
 
 
 
@@ -38,6 +40,22 @@ const App = props => {
 
         
         <FullStack></FullStack>
+
+        
+
+        {/* <MapView style={styles.mapStyle}  region={location} onPress={e => 
+          setLocation({
+            latitude:e.nativeEvent.coordinate.latitude,
+            longitude:e.nativeEvent.coordinate.longitude,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          })
+        }
+         
+        >
+
+         <Marker title="windows" coordinate={location}  onSelect={(event)=>{console.log(event)}} ></Marker>
+       </MapView> */}
        
       </View>
     </Provider>
@@ -55,6 +73,14 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     textAlign: 'justify',
   },
+
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+
+
+
 });
 
 export default App;

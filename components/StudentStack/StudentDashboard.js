@@ -8,9 +8,11 @@ import CreateClass from './CreateClass';
 import UICard from '../../UIComponents/UICard';
 import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_CLASSES_FUNC } from '../../redux/actions/actions';
+import { GET_CLASSES_FUNC,GET_EVENTS_STUDENTS_FUNC } from '../../redux/actions/actions';
 import { getDeviceId, getUniqueId } from 'react-native-device-info';
 import Axios from 'axios';
+import UIEventCard from '../../UIComponents/UIEventCard';
+import CreateEvent from '../FacultyStack/CreateEvent';
 // import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -40,18 +42,24 @@ const StudentDashboard = props => {
 
   const [isLoading,setIsLoading] = React.useState(true);
 
+  const [editItem,setEditItem] = React.useState(null);
+  let [num,setNum] = React.useState(0);
 
   const changeState = () => {
     setState(!state);
   };
 
-  React.useEffect(()=>{
+  const changeNum = () => {
+    setNum(num++);
+  }
 
+  React.useEffect(()=>{
+    console.log('loggedin')
     
     const getAccount = async() => {
       try{
         let token = await AsyncStorage.getItem('loginToken');
-        let user = await Axios.get('http://192.168.0.101:3000/getUser',
+        let user = await Axios.get('http://192.168.0.100:3000/getUser',
         {
           headers:{
             "auth-token":token
@@ -87,37 +95,44 @@ const StudentDashboard = props => {
 
     
 
-    const getClasses = async ()=>{
-      await  dispatch(GET_CLASSES_FUNC());
+    const getEvents = async ()=>{
+      await  dispatch(GET_EVENTS_STUDENTS_FUNC());
       setIsLoading(false);
    }
-    getClasses();
+    getEvents();
+    console.log(win)
     // console.log(win,"Windows");
  
   },[]);
 
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <Overlay isVisible={state} onBackdropPress={changeState} height={530}>
-        <CreateClass closeModal={changeState} />
+    <View style={{flex: 1, backgroundColor: 'white',marginBottom:20}}>
+      <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
+        
+        <CreateEvent closeModal={changeState} editItem={editItem}  changeNum={changeNum}/>
+        
       </Overlay>
 
-      {win.classes.length >= 0 ? (
-        <ScrollView>
-          {win.classes.map((item, index) => {
-            return (
-              <TouchableOpacity activeOpacity={0.6}>
-                <UICard
+
+      {win.events.length >= 0 ? (
+        <ScrollView style={{marginTop:10}}>
+          {win.events.map((item, index) => {
+            console.log(item);
+            console.log('wiasd')
+           return (   <TouchableOpacity activeOpacity={0.6}  >
+                
+                <UIEventCard
                   key={index}
                   className={item.className}
-                  facultyName={item.facultyName}
-                  no_of_students={item.no_of_students}
+                  topicName={item.topicName}
                   selectBranch={item.selectBranch}
-                  year={item.year}
+                  year={item.selectYear}
+                  fromdate={item.fromdateAndTime}
                   edit={() => {
                     // changeState();
-                    props.navigation.navigate('getStudents3',{className:item.className,selectBranch:item.selectBranch})
+
+                    // props.navigation.navigate('getStudents2',{className:item.className,selectBranch:item.selectBranch})
                   }}
                 />
               </TouchableOpacity>
@@ -126,7 +141,7 @@ const StudentDashboard = props => {
         </ScrollView>
       ) : <Loading></Loading>}
 
-      {/* <Button onPress={_signOutAsync} title="drone" /> */}
+      
       <Button onPress={()=>_signOutAsync() } title="drone" />
         
         
@@ -139,12 +154,13 @@ const StudentDashboard = props => {
     
 
       <ActionButton
-        buttonColor={'white'}
-        renderIcon={() => <Icon name="plus" color="#3671bf" size={25} />}>
+        buttonColor={'#26a1f5'}
+        // elevation={10}
+        renderIcon={() => <Icon name="plus" color="white" size={25} />}>
         <ActionButton.Item
           buttonColor="white"
-          title="Create Class"
-          onPress={() => setState(true)}>
+          title="Create Event"
+          onPress={() => {setEditItem(null);setState(true)}}>
           <Icon name="mail" color="#3671bf" size={20} />
         </ActionButton.Item>
       </ActionButton>

@@ -111,7 +111,7 @@ const SignUp = props => {
                   container = {management_id: data.management_id, ...allItems};
                 }
 
-                await Axios.post('http://192.168.0.101:3000/signup', container)
+                await Axios.post('http://192.168.0.100:3000/signup', container)
                   .then(res => {
                     let val = isString(res.data);
                     if (val) {

@@ -18,9 +18,10 @@ const CreateClass = (props) => {
     const dispatch = useDispatch();
 
     const postData = async(data) => {
+        console.log(data)
         try{
             let token = await AsyncStorage.getItem('loginToken')
-                await Axios.post("http://192.168.0.101:3000/createClasses",{
+                await Axios.post("http://192.168.0.100:3000/createClasses",{
                 className:data.className,facultyName:data.facultyName,no_of_students:data.no_of_students,year:data.year,  selectBranch:data.selectBranch
                
             },{
@@ -45,7 +46,11 @@ const CreateClass = (props) => {
         }
     } 
 
-    let initialValues = {className:"",facultyName:"",no_of_students:0,year:0,  selectBranch:'cse',};
+    const [branch, setBranch] = React.useState({
+        branch: 0,
+      });
+
+    let initialValues = {className:"",facultyName:"",no_of_students:0,year:0,  selectBranch:0,};
     let branches = [
         {viewValue:'CSE',value:'cse'},
         {viewValue:'ECE',value:'ece'},
@@ -55,9 +60,7 @@ const CreateClass = (props) => {
         {viewValue:'Civil',value:'civil'},
     ]
 
-    const [branch, setBranch] = React.useState({
-        branch: 'Student',
-      });
+  
 
       
     return(
@@ -113,12 +116,12 @@ const CreateClass = (props) => {
                                             style={{color:"rgba(48, 48, 48,0.7)",fontSize:23}}
                                                 mode="dialog"
                                                 placeholder="drone"
-                                                selectedValue={branch.branch}
+                                                selectedValue={branches[branch.branch].value}
                                                 prompt="Be careful you cant change it again!"
                                                 onValueChange={(itemValue, itemIndex) => {
                                                     
-                                                setFieldValue('selectBranch', itemValue);
-                                                setBranch({branch: itemValue});
+                                                setFieldValue('selectBranch', itemIndex);
+                                                setBranch({branch: itemIndex});
                                             
                                                 }}
                                                 

@@ -1,19 +1,38 @@
 import * as React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, ActivityIndicator } from 'react-native';
 
 import {Text, Button} from 'react-native-elements';
 
 
-const UICard = (props) => {
-    const colors = ["blue","green","red","violet","pink","brown","purple","black","salmon","grey"]
+let branches = [
+    {viewValue: 'CSE', value: 'cse'},
+    {viewValue: 'ECE', value: 'ece'},
+    {viewValue: 'EEE', value: 'eee'},
+    {viewValue: 'IT', value: 'it'},
+    {viewValue: 'Mech', value: 'mech'},
+    {viewValue: 'Civil', value: 'civil'},
+  ];
 
+  
+  
+  const UICard = (props) => {
+      const colors = ["blue","green","red","violet","pink","brown","purple","black","salmon","grey"]
+      const [isLoading,setIsLoading]=React.useState(true);
+
+  
     let selectedColor = colors[Math.floor(Math.random()*10)]
 
     React.useEffect(()=>{
         
-        
+        console.log(props);
+        setIsLoading(false)
     })
+
+
+    if(isLoading){
+        return <ActivityIndicator ></ActivityIndicator>
+    }
 
     return (
 
@@ -77,7 +96,9 @@ const UICard = (props) => {
                     
                     <Text style={{fontWeight:'normal',fontSize:15}}>Year: </Text>{`${props.year} Year`}</Text>
 
-                    <Text style={
+                   
+                    {   props.selectBranch !==undefined ?
+                     <Text style={
                         {
                             fontFamily:"TitilliumWeb-Bold",
                             // fontFamily:"Montserrat-SemiBold",
@@ -86,8 +107,10 @@ const UICard = (props) => {
                             textTransform:"uppercase"
                             
                         }}>
-                    
-                    <Text style={{fontWeight:'normal',fontSize:15}}>Branch: </Text>{`${props.selectBranch} Year`}</Text>
+                        <Text style={{fontWeight:'normal',fontSize:15}}>Branch: </Text>{` ${branches[props.selectBranch].viewValue} Year`}</Text>
+                        : <Text style={{  color:"white"}}>Loading</Text>
+
+                    }
 
                       
                     </View>
