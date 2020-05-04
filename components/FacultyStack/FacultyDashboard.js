@@ -93,14 +93,17 @@ const FacultyDashboard = props => {
         <ScrollView style={{marginTop:10}}>
           {win.events.map((item, index) => {
             // console.log(item);
+           
             return (
               <TouchableOpacity activeOpacity={0.6} onLongPress={() => { setEditItem(item),setState(true)}} >
+                
                 <UIEventCard
                   key={index}
                   className={item.className}
                   topicName={item.topicName}
                   selectBranch={item.selectBranch}
                   year={item.selectYear}
+                  fromdate={item.fromdateAndTime}
                   edit={() => {
                     // changeState();
 

@@ -13,7 +13,8 @@ const UIEventCard = (props) => {
     let selectedColor = colors[Math.floor(Math.random()*10)]
 
     React.useEffect(()=>{
-        
+      // console.log(branches[props.selectBranch].viewValue,'UIEVENT CARD');
+      // console.log(props.fromdate)
         
     })
 
@@ -31,6 +32,18 @@ const UIEventCard = (props) => {
         {viewValue:'Mechanical',value:'mech'},
         {viewValue:'Civil',value:'civil'},
     ]
+
+const formatAMPM =(date) =>{
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    
 
 
     return (
@@ -64,8 +77,7 @@ const UIEventCard = (props) => {
               style={{
                 width: 80,
                 height: '100%',
-                marginRight: 20,
-                
+                marginRight: 20, 
                 borderRightWidth: 2,
                 borderRightColor: 'lightgrey',
                 justifyContent: 'center',
@@ -77,9 +89,18 @@ const UIEventCard = (props) => {
                   fontFamily: 'TitilliumWeb-Regular',
                   color: '#4b4949',
                 }}>
-                25
+                {new Date(props.fromdate).getDate() }
               </Text>
-              <Text style={{color: 'grey'}}>8.00pm</Text>
+              <Text style={{color: 'grey'}}>
+                {formatAMPM(new Date(props.fromdate))}
+                
+                
+              </Text>
+              <Text style={{color: 'grey',fontSize:11}}>
+              {new Date(props.fromdate).getMonth()} - {new Date(props.fromdate).getFullYear()}
+                
+                
+              </Text>
             </View>
 
             <View

@@ -159,9 +159,10 @@ export const MODIFY_EVENT_FUNC = (body) => {
 
 export const DELETE_EVENT_FUNC = (body) => {
     return async dispatch=>{
+        let token = await AsyncStorage.getItem('loginToken');
         await Axios.post('http://192.168.0.100:3000/deleteEvent',{
             ...body
-        }).then(data=>{
+        },{headers:{"Auth-Token":token}}).then(data=>{
             dispatch({
                 type:"DELETE_EVENT",
                 data:data.data
@@ -196,3 +197,22 @@ export const GET_EVENTS_FUNC = () => {
         )
     }
 } 
+
+export const GET_EVENTS_STUDENTS_FUNC = () => {
+    
+    return async dispatch => {
+       let token = await AsyncStorage.getItem('loginToken');
+        await Axios.get('http://192.168.0.100:3000/studentGetEvents',{headers:{
+            "Auth-Token":token
+        }}).then(
+          (data)=>dispatch({
+              type:"GET_EVENTS",
+              data:data.data
+          })
+        )
+    }
+} 
+
+
+
+

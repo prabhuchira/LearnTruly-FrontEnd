@@ -3,20 +3,29 @@ import {Formik} from 'formik';
 import UIInput from '../../UIComponents/UIInput';
 
 import {Input, Button, Slider, Text, Overlay} from 'react-native-elements';
-import {View, AsyncStorage, Keyboard, Dimensions,StyleSheet} from 'react-native';
+import {
+  View,
+  AsyncStorage,
+  Keyboard,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 import UIButton from '../../UIComponents/UIButton';
 import {ButtonGroup} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {PUSH_EVENT_FUNC,MODIFY_EVENT_FUNC,DELETE_EVENT_FUNC} from '../../redux/actions/actions';
+import {
+  PUSH_EVENT_FUNC,
+  MODIFY_EVENT_FUNC,
+  DELETE_EVENT_FUNC,
+} from '../../redux/actions/actions';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
-
 
 const CreateEvent = props => {
   const [state, setState] = React.useState(0);
@@ -28,19 +37,28 @@ const CreateEvent = props => {
   const [mode2, setMode2] = React.useState('date');
   const [show, setShow] = React.useState(false);
   const [show2, setShow2] = React.useState(false);
-  const [isLoading,setLoading] =React.useState(true);
+  const [isLoading, setLoading] = React.useState(true);
   const postData = async data => {
     dispatch(PUSH_EVENT_FUNC(data));
   };
 
-  const modifyData = async data=>{
+  const modifyData = async data => {
     console.log(data);
     dispatch(MODIFY_EVENT_FUNC(data));
-  }
+  };
 
   const deleteItem = async data => {
-    dispatch(DELETE_EVENT_FUNC(data))
-  }
+    dispatch(DELETE_EVENT_FUNC(data));
+  };
+
+  let branches = [
+    {viewValue: 'CSE', value: 'cse'},
+    {viewValue: 'ECE', value: 'ece'},
+    {viewValue: 'EEE', value: 'eee'},
+    {viewValue: 'IT', value: 'it'},
+    {viewValue: 'Mech', value: 'mech'},
+    {viewValue: 'Civil', value: 'civil'},
+  ];
 
   let initialValues = {
     topicName: '',
@@ -48,16 +66,9 @@ const CreateEvent = props => {
     selectYear: 0,
     selectBranch: 0,
     fromdateAndTime: fromdateAndTime,
-    todateAndTime:todateAndTime
+    todateAndTime: todateAndTime,
   };
-  let branches = [
-    {viewValue: 'CSE', value: 'cse'},
-    {viewValue: 'ECE', value: 'ece'},
-    {viewValue: 'EEE', value: 'eee'},
-    {viewValue: 'IT', value: 'it'},
-    {viewValue: 'Mechanical', value: 'mech'},
-    {viewValue: 'Civil', value: 'civil'},
-  ];
+ 
 
   // React.useEffect(()=>{
   //   console.log(props.editItem,"dronesss")
@@ -69,22 +80,22 @@ const CreateEvent = props => {
 
   // },[])
 
-  
-
   const [branch, setBranch] = React.useState({
-    branch: 'Student',
+    branch: 0,
   });
 
   const [locationModal, setLocationModal] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
+    console.log(selectedDate,"windwos");
     const currentDate = selectedDate || fromdateAndTime;
     setShow(Platform.OS === 'ios');
+    
     setfromdateAndTime(currentDate);
   };
 
   const onChange2 = (event, selectedDate) => {
-    const currentDate = selectedDate || fromdateAndTime;
+    const currentDate = selectedDate || todateAndTime;
     setShow2(Platform.OS === 'ios');
     settodateAndTime(currentDate);
   };
@@ -108,7 +119,7 @@ const CreateEvent = props => {
   };
 
   const showTimepicker = () => {
-    showMode2('time');
+    showMode('time');
   };
   const showTimepicker2 = () => {
     showMode2('time');
@@ -129,29 +140,27 @@ const CreateEvent = props => {
   //   return <Text>Loading</Text>
   // }
 
-  if(props.editItem !== null){
+  if (props.editItem !== null) {
     // console.log(props.editItem)
     initialValues = {
       topicName: props.editItem.topicName,
       className: props.editItem.className,
       selectYear: props.editItem.selectYear,
-      selectBranch: props.editItem.selectBranch,
+      selectBranch: Number(props.editItem.selectBranch),
       fromdateAndTime: props.editItem.fromdateAndTime,
-      todateAndTime:props.editItem.todateAndTime
+      todateAndTime: props.editItem.todateAndTime,
     };
 
+   
   }
-  React.useEffect(()=>{
-
-    if(props.editItem !== null){
-      
-    setfromdateAndTime(new Date(props.editItem.fromdateAndTime));
-    settodateAndTime(new Date(props.editItem.todateAndTime))
+  React.useEffect(() => {
+    if (props.editItem !== null) {
+      setfromdateAndTime(new Date(props.editItem.fromdateAndTime));
+      settodateAndTime(new Date(props.editItem.todateAndTime));
+      setBranch({branch: props.editItem.selectBranch});
     }
     
-
-
-  },[])
+  }, []);
 
   return (
     <Formik
@@ -160,8 +169,20 @@ const CreateEvent = props => {
         // console.log(data);
         //    console.log(data)
         // console.log(fromdateAndTime);
-        
-        props.editItem !== null ?   modifyData({...data,modifyID:props.editItem._id,fromdateAndTime:fromdateAndTime.toString(),todateAndTime:todateAndTime.toString()}) : postData({...data, fromdateAndTime: fromdateAndTime.toString(),todateAndTime:todateAndTime.toString(),location:location});
+
+        props.editItem !== null
+          ? modifyData({
+              ...data,
+              modifyID: props.editItem._id,
+              fromdateAndTime: fromdateAndTime,
+              todateAndTime: todateAndTime,
+            })
+          : postData({
+              ...data,
+              fromdateAndTime: fromdateAndTime,
+              todateAndTime: todateAndTime,
+              location: location,
+            });
         props.changeNum();
 
         props.closeModal();
@@ -196,11 +217,6 @@ const CreateEvent = props => {
       }) => (
         // <UIInput placeholder="ClassName" onChange={handleChange} onBlur={handleBlur}></UIInput>
 
-      
-      
-        
-
-
         <View
           style={{
             alignItems: 'stretch',
@@ -210,12 +226,12 @@ const CreateEvent = props => {
           }}>
           <Overlay
             isVisible={locationModal}
-            onBackdropPress={onChangeLocationModal} fullScreen>
-        {/* <Text style={{position:"absolute",top:50,right:25,zIndex:100}}>Drone</Text> */}
+            onBackdropPress={onChangeLocationModal}
+            fullScreen>
+            {/* <Text style={{position:"absolute",top:50,right:25,zIndex:100}}>Drone</Text> */}
             <MapView
               style={styles.mapStyle}
               region={location}
-              
               onPress={e =>
                 setLocation({
                   latitude: e.nativeEvent.coordinate.latitude,
@@ -224,9 +240,7 @@ const CreateEvent = props => {
                   longitudeDelta: 0.0121,
                 })
               }>
-            
               <Marker
-              
                 title="windows"
                 coordinate={location}
                 onSelect={event => {
@@ -234,9 +248,33 @@ const CreateEvent = props => {
                 }}
               />
             </MapView>
-            <View style={{flexDirection:"row",flex:1,position:"absolute",zIndex:100,bottom:20,marginHorizontal:20,justifyContent:"space-evenly",alignItems:"center"}}>
-            <Button title="Set Location" raised onPress={onChangeLocationModal} icon={<Icon name="check" size={20} color="white"></Icon>} containerStyle={{flex:1,marginHorizontal:20}} buttonStyle={{borderRadius:5}}></Button>
-            <Button title="Cancel" raised onPress={onChangeLocationModal} icon={<Icon name="x" size={20} color="white"></Icon>} containerStyle={{flex:1}} buttonStyle={{backgroundColor:"red",borderRadius:5}}></Button>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+                position: 'absolute',
+                zIndex: 100,
+                bottom: 20,
+                marginHorizontal: 20,
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+              }}>
+              <Button
+                title="Set Location"
+                raised
+                onPress={onChangeLocationModal}
+                icon={<Icon name="check" size={20} color="white" />}
+                containerStyle={{flex: 1, marginHorizontal: 20}}
+                buttonStyle={{borderRadius: 5}}
+              />
+              <Button
+                title="Cancel"
+                raised
+                onPress={onChangeLocationModal}
+                icon={<Icon name="x" size={20} color="white" />}
+                containerStyle={{flex: 1}}
+                buttonStyle={{backgroundColor: 'red', borderRadius: 5}}
+              />
             </View>
           </Overlay>
           <Text
@@ -256,11 +294,12 @@ const CreateEvent = props => {
                 style={{color: 'rgba(48, 48, 48,0.7)', fontSize: 23}}
                 mode="dialog"
                 placeholder="drone"
-                selectedValue={branch.branch}
+                selectedValue={branches[branch.branch].value}
                 prompt="Be careful you cant change it again!"
                 onValueChange={(itemValue, itemIndex) => {
-                  setFieldValue('selectBranch', itemValue);
-                  setBranch({branch: itemValue});
+                  console.log(itemIndex)
+                  setFieldValue('selectBranch',itemIndex);
+                  setBranch({branch: itemIndex});
                 }}
                 hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
                 onPress={event => {
@@ -293,7 +332,9 @@ const CreateEvent = props => {
           />
           <Text />
           <Input
-          defaultValue={initialValues.className}
+          autoCapitalize="characters"
+          
+            defaultValue={initialValues.className}
             label={'ClassName'}
             placeholder="Class"
             onChangeText={handleChange('className')}
@@ -303,11 +344,10 @@ const CreateEvent = props => {
             }
             errorStyle={{color: 'red'}}
           />
-            <View
+          <View
             style={{marginTop: 20, alignItems: 'center', flexDirection: 'row'}}>
             <Text style={{marginLeft: 10, fontSize: 16}}>Year:</Text>
-            <ButtonGroup 
-            
+            <ButtonGroup
               selectedButtonStyle={{backgroundColor: '#26a1f5'}}
               selectedIndex={values.selectYear}
               buttons={buttons}
@@ -336,7 +376,7 @@ const CreateEvent = props => {
                 buttonStyle={{width: 100, backgroundColor: '#26a1f5'}}
                 style={{flex: 1}}
               />
-              <Button 
+              <Button
                 title="Time"
                 onPress={showTimepicker}
                 buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
@@ -348,7 +388,7 @@ const CreateEvent = props => {
                 buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
                 style={{flex: 1}}
               />
-                <Button
+              <Button
                 title="Time"
                 onPress={showTimepicker2}
                 buttonStyle={{minWidth: 75, backgroundColor: '#26a1f5'}}
@@ -362,21 +402,28 @@ const CreateEvent = props => {
               /> */}
             </View>
             <Button
-                title="Set Location"
-                onPress={onChangeLocationModal}
-                buttonStyle={{minWidth: 120, backgroundColor: '#26a1f5',marginTop:10,marginHorizontal:10}}
-                style={{flex: 1,}}
-              /> 
+              title="Set Location"
+              onPress={onChangeLocationModal}
+              buttonStyle={{
+                minWidth: 120,
+                backgroundColor: '#26a1f5',
+                marginTop: 10,
+                marginHorizontal: 10,
+              }}
+              style={{flex: 1}}
+            />
           </View>
 
           {/* <Text>{fromdateAndTime.toString()}</Text> */}
 
           {show ? (
             <DateTimePicker
+            
               testID="dateTimePicker"
               timeZoneOffsetInMinutes={0}
               value={fromdateAndTime}
               mode={mode}
+
               is24Hour={true}
               display="default"
               onChange={onChange}
@@ -390,74 +437,76 @@ const CreateEvent = props => {
               value={todateAndTime}
               mode={mode2}
               is24Hour={true}
-              display="default"
+              display="spinner"
               onChange={onChange2}
             />
           ) : null}
 
-        
-
           {/* <Slider  maximumValue={50} step={1} onValueChange={(value)=>setFieldValue("no_of_students",value)}  style={{marginTop:20,marginHorizontal:10}} thumbTintColor="#3671bf" maximumTrackTintColor="#3671bf" ></Slider> */}
 
           {/* <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text> */}
-    
 
-
-          
-
-          {props.editItem !== null ?
-
-            
-<View style={{flexDirection:"row",marginVertical: 30,alignItems:"stretch",justifyContent:"space-evenly"}}>
-          <Button
-            disabled={!isValid}
-            title={props.editItem !== null ? "Save Topic" : "Add Topic"}
-            buttonStyle={buttonStyles2.buttonStyle}
-            titleStyle={buttonStyles2.titleStyle}
-            linearGradientProps={{
-              colors: ['#279df1', '#465fbe'],
-              start: { x: 0, y: 0.5 },
-              end: { x: 1, y: 1 },
-            }}   ViewComponent={LinearGradient}
-            onPress={() => {
-              handleSubmit();
-            }}
-          />
-                  <Button
-                    linearGradientProps={{
-            colors: ['#279df1', '#465fbe'],
-            start: { x: 0, y: 0.5 },
-            end: { x: 1, y: 1 },
-          }}   ViewComponent={LinearGradient}
-                  disabled={!isValid}
-                  title={"Delete"}
-                  buttonStyle={{...buttonStyles2.buttonStyle,backgroundColor:"red",marginVertical:0}}
-                  titleStyle={buttonStyles2.titleStyle}
-                  onPress={() => {
-                    deleteItem(props.editItem);
-                    props.closeModal()
-                  }}
-                  />
-                    </View>
-          
-          :      <Button
-          disabled={!isValid}
-          linearGradientProps={{
-            colors: ['#279df1', '#465fbe'],
-            start: { x: 0, y: 0.5 },
-            end: { x: 1, y: 0.5 },
-          }}   ViewComponent={LinearGradient}
-       
-          title={"Add Topic"}
-          buttonStyle={{...buttonStyles2.buttonStyle,marginVertical:20}}
-          titleStyle={buttonStyles2.titleStyle}
-          onPress={() => {
-            handleSubmit();
-          }}
-        />
-          
-          }
-        
+          {props.editItem !== null ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                marginVertical: 30,
+                alignItems: 'stretch',
+                justifyContent: 'space-evenly',
+              }}>
+              <Button
+                disabled={!isValid}
+                title={props.editItem !== null ? 'Save Topic' : 'Add Topic'}
+                buttonStyle={buttonStyles2.buttonStyle}
+                titleStyle={buttonStyles2.titleStyle}
+                linearGradientProps={{
+                  colors: ['#279df1', '#465fbe'],
+                  start: {x: 0, y: 0.5},
+                  end: {x: 1, y: 1},
+                }}
+                ViewComponent={LinearGradient}
+                onPress={() => {
+                  handleSubmit();
+                }}
+              />
+              <Button
+                linearGradientProps={{
+                  colors: ['#e3116c',"#f35a33"],
+                  start: {x: 0, y: 0.5},
+                  end: {x: 1, y: 1},
+                }}
+                ViewComponent={LinearGradient}
+                disabled={!isValid}
+                title={'Delete'}
+                buttonStyle={{
+                  ...buttonStyles2.buttonStyle,
+                  backgroundColor: 'red',
+                  marginVertical: 0,
+                }}
+                titleStyle={buttonStyles2.titleStyle}
+                onPress={() => {
+                  deleteItem(props.editItem);
+                  props.closeModal();
+                }}
+              />
+            </View>
+          ) : (
+            <Button
+              disabled={!isValid}
+              linearGradientProps={{
+                colors: ['#279df1', '#465fbe'],
+                start: {x: 0, y: 0.5},
+                end: {x: 1, y: 0.5},
+              }}
+              ViewComponent={LinearGradient}
+              title={'Add Topic'}
+              buttonStyle={{...buttonStyles2.buttonStyle, marginVertical: 20}}
+              titleStyle={buttonStyles2.titleStyle}
+              onPress={() => {
+                handleSubmit();
+              }}
+            />
+          )}
         </View>
       )}
     </Formik>
@@ -468,11 +517,10 @@ export default CreateEvent;
 
 const buttonStyles2 = {
   buttonStyle: {
-    minWidth: (Dimensions.get('screen').width/3) + 40,
+    minWidth: Dimensions.get('screen').width / 3 + 40,
     height: 50,
     elevation: 1,
     backgroundColor: '#26a1f5',
-    
   },
 
   titleStyle: {
@@ -494,9 +542,9 @@ const buttonStyles2 = {
 };
 
 const styles = {
-    mapStyle: {
-        // ...StyleSheet.absoluteFill,
-        width: Dimensions.get('screen').width /1,
-        height: Dimensions.get('screen').height /1,
-      },
-}
+  mapStyle: {
+    // ...StyleSheet.absoluteFill,
+    width: Dimensions.get('screen').width / 1,
+    height: Dimensions.get('screen').height / 1,
+  },
+};
