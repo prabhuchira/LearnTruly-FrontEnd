@@ -28,7 +28,8 @@ class AuthLoadingScreen extends React.Component {
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     // await Axios.get('/getUser',
-   
+    // console
+    
 
     this.props.navigation.navigate(userToken ? 'App' : 'Auth');
   };

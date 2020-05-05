@@ -10,7 +10,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_EVENTS_FUNC } from '../../redux/actions/actions';
 // import {useSelector, useDispatch} from 'react-redux';
-
+import { StyleSheet } from 'react-native'
 
 const FacultyDashboard = props => {
   // console.log('getting token')
@@ -65,6 +65,18 @@ const FacultyDashboard = props => {
     setNum(num++);
   }
 
+  const UIEventComponent = (props)=>{
+    return <UIEventCard
+    key={props.index}
+    className={props.data.className}
+    topicName={props.data.topicName}
+    selectBranch={props.data.selectBranch}
+    year={props.data.selectYear}
+    fromdate={props.data.fromdateAndTime}
+   
+  />
+  }
+
   React.useEffect(()=>{
   //   const getClasses = async ()=>{
   //     await  dispatch(GET_EVENTS_FUNC());
@@ -81,52 +93,111 @@ const FacultyDashboard = props => {
 
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white',marginBottom:20}}>
-      <Overlay fullScreen isVisible={state} onBackdropPress={changeState} height={530}>
-        
-        <CreateEvent closeModal={changeState} editItem={editItem}  changeNum={changeNum}/>
-        
+    <View style={{flex: 1, backgroundColor: 'white', marginBottom: 20}}>
+      <Overlay
+        fullScreen
+        isVisible={state}
+        animationType="slide"
+        animated={true}
+        onBackdropPress={changeState}
+        height={530}>
+        <CreateEvent
+          closeModal={changeState}
+          editItem={editItem}
+          changeNum={changeNum}
+        />
       </Overlay>
 
-
       {win.events.length >= 0 ? (
-        <ScrollView style={{marginTop:10}}>
-          {win.events.map((item, index) => {
-            // console.log(item);
-           
-            return (
-              <TouchableOpacity activeOpacity={0.6} onLongPress={() => { setEditItem(item),setState(true)}} >
-                
-                <UIEventCard
-                  key={index}
-                  className={item.className}
-                  topicName={item.topicName}
-                  selectBranch={item.selectBranch}
-                  year={item.selectYear}
-                  fromdate={item.fromdateAndTime}
-                  edit={() => {
-                    // changeState();
+        <ScrollView style={{marginTop: 10, marginBottom: 10}}>
 
-                    // props.navigation.navigate('getStudents2',{className:item.className,selectBranch:item.selectBranch})
-                  }}
-                />
-              </TouchableOpacity>
-            );
+          <Text style={styles.textStyles}>Yesterday</Text>
+                    {win.events.map((item, index) => {
+                      if (
+                        new Date(item.fromdateAndTime).getDate() < new Date().getDate()
+                      ) {
+                        return (
+                          <View>
+                            <TouchableOpacity
+                              activeOpacity={0.6}
+                              onPress={() => {
+                                setEditItem(item), setState(true);
+                              }}>
+                              <UIEventComponent data={item} index={index} />
+                            </TouchableOpacity>
+                          </View>
+                        );
+                      }
+                    })}
+
+          <Text style={styles.textStyles}>Today</Text>
+          {win.events.map((item, index) => {
+            if (
+              new Date(item.fromdateAndTime).getDate() == new Date().getDate()
+            ) {
+              return (
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onLongPress={() => {
+                      setEditItem(item), setState(true);
+                    }}>
+                    <UIEventComponent data={item} index={index} />
+                  </TouchableOpacity>
+                </View>
+              );
+            }
+          })}
+
+          <Text style={styles.textStyles}>Tommorow</Text>
+          {win.events.map((item, index) => {
+            if (
+              new Date(item.fromdateAndTime).getDate() == new Date().getDate() + 1
+            ) {
+              return (
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onLongPress={() => {
+                      setEditItem(item), setState(true);
+                    }}>
+                    <UIEventComponent data={item} index={index} />
+                  </TouchableOpacity>
+                </View>
+              );
+            }
+          })}
+
+      <Text style={styles.textStyles}>Upcoming</Text>
+          {win.events.map((item, index) => {
+            if (
+              new Date(item.fromdateAndTime).getDate() > new Date().getDate() + 1
+            ) {
+              return (
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onLongPress={() => {
+                      setEditItem(item), setState(true);
+                    }}>
+                    <UIEventComponent data={item} index={index} />
+                  </TouchableOpacity>
+                </View>
+              );
+            }
           })}
         </ScrollView>
-      ) : <Loading></Loading>}
+      ) : (
+        <Loading />
+      )}
 
-      
-      <Button onPress={()=>_signOutAsync() } title="drone" />
-        
-        
-        
-        {/* {
+      <Button onPress={() => _signOutAsync()} title="drone" />
+
+      {/* {
           isLoading ? <Loading></Loading> : win.classes.map(item=>{
             return   <Text>{JSON.stringify(item)}</Text>
           })
         } */}
-    
 
       <ActionButton
         buttonColor={'#26a1f5'}
@@ -135,13 +206,20 @@ const FacultyDashboard = props => {
         <ActionButton.Item
           buttonColor="white"
           title="Create Event"
-          onPress={() => {setEditItem(null);setState(true)}}>
+          onPress={() => {
+            setEditItem(null);
+            setState(true);
+          }}>
           <Icon name="mail" color="#3671bf" size={20} />
         </ActionButton.Item>
       </ActionButton>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textStyles:{marginTop:20,marginHorizontal:15,fontSize:14,color:"grey"}
+})
 
 FacultyDashboard['navigationOptions'] = ({navigation,props}) => {
   return {

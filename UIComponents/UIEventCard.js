@@ -112,7 +112,7 @@ const formatAMPM =(date) =>{
               }}>
 
               <View style={{flexDirection:"row",alignItems:"center"}}>
-                <Text  style={{fontWeight: 'normal',fontSize: 17,fontFamily:"TitilliumWeb-SemiBold",color:"#636363",flex:1}}>
+                <Text  style={{fontWeight: 'normal',fontSize: 18,fontFamily:"TitilliumWeb-SemiBold",color:"#636363",flex:1}}>
                     {props.topicName}{' '}
                 </Text>
                 <Badge badgeStyle={{backgroundColor:"#26a1f5",padding:10,flex:2,marginRight:10,maxHeight:25}} value={<Text style={{fontSize:10,color:"white"}}>A Section</Text>} > </Badge>

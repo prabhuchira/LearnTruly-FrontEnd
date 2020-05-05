@@ -27,10 +27,7 @@ const Login = props => {
   React.useEffect(()=>{
     // DeviceInfo.getSerialNumber().then(res=>console.log(res))
   })
-  const _signInAsync = async data => {
-    await AsyncStorage.setItem('loginToken', data);
-    props.navigation.navigate('App');
-  };
+ 
 
   const _signOutAsync = async () => {
     await AsyncStorage.clear();
@@ -58,7 +55,7 @@ const Login = props => {
             onSubmit={async (data, {setSubmitting}) => {
               setSubmitting(true);
 
-              Axios.post('http://192.168.0.100:3000/login', {
+              Axios.post('http://192.168.0.103:3000/login', {
                 email: data.email,
                 password: data.password,
               })
@@ -71,8 +68,17 @@ const Login = props => {
                        props.navigation.navigate('Login')
                      }
                   }
+
+                  const _signInAsync = async data => {
+                    await AsyncStorage.setItem('loginToken', data);
+                    
+                 
+                     props.navigation.navigate('App');
+                   };
+
+                  //  console.log(res.headers['auth-token'],"asds")
               
-                  
+                  _signInAsync(res.headers['auth-token']);
                   
                   dispatch(GET_USER_ACCOUNT_FUNC(res.data));
                   
@@ -83,7 +89,7 @@ const Login = props => {
                       <Text style={{color: 'white'}}>{res.data}</Text>
                     );
                   }
-                  _signInAsync(res.headers['auth-token']); //here token is coming from server
+                 //here token is coming from server
                 })
                 .catch(error => console.log(error));
 

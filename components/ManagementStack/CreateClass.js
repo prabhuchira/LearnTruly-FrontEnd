@@ -20,7 +20,7 @@ const CreateClass = (props) => {
     const postData = async(data) => {
         try{
             let token = await AsyncStorage.getItem('loginToken')
-                await Axios.post("http://192.168.0.100:3000/createClasses",{
+                await Axios.post("http://192.168.0.103:3000/createClasses",{
                 className:data.className,facultyName:data.facultyName,no_of_students:data.no_of_students,year:data.year,  selectBranch:data.selectBranch
                
             },{

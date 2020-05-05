@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Formik} from 'formik';
 import UIInput from '../../UIComponents/UIInput';
 
-import {Input, Button, Slider, Text, Overlay} from 'react-native-elements';
+import {Input, Button, Slider, Text, Overlay, Divider} from 'react-native-elements';
 import {
   View,
   AsyncStorage,
@@ -277,6 +277,8 @@ const CreateEvent = props => {
               />
             </View>
           </Overlay>
+            <Text style={{color:"#279df1",marginTop:20,fontSize:30,fontWeight:"200",textAlign:"center",}}>{props.editItem !== null ?   "Edit Event" : "Create Event"}</Text>
+            <Divider style={{backgroundColor:"rgba(48, 48, 48,0.5)",height:1,marginVertical:20}}></Divider>
           <Text
             style={{
               textAlign: 'left',
@@ -289,6 +291,7 @@ const CreateEvent = props => {
             <Text style={{fontStyle: 'italic'}}>(longpress to select)</Text>
           </Text>
           <View style={{alignItems: 'center', margin: 10}}>
+            
             <View style={buttonStyles2.pickerStyles}>
               <Picker
                 style={{color: 'rgba(48, 48, 48,0.7)', fontSize: 23}}
@@ -424,8 +427,8 @@ const CreateEvent = props => {
               value={fromdateAndTime}
               mode={mode}
 
-              is24Hour={true}
-              display="default"
+              is24Hour={false}
+              display="spinner"
               onChange={onChange}
             />
           ) : null}
@@ -436,7 +439,7 @@ const CreateEvent = props => {
               timeZoneOffsetInMinutes={0}
               value={todateAndTime}
               mode={mode2}
-              is24Hour={true}
+              is24Hour={false}
               display="spinner"
               onChange={onChange2}
             />
@@ -500,7 +503,7 @@ const CreateEvent = props => {
               }}
               ViewComponent={LinearGradient}
               title={'Add Topic'}
-              buttonStyle={{...buttonStyles2.buttonStyle, marginVertical: 20}}
+              buttonStyle={{...buttonStyles2.buttonStyle, marginVertical: 30,marginHorizontal:10}}
               titleStyle={buttonStyles2.titleStyle}
               onPress={() => {
                 handleSubmit();
@@ -517,7 +520,7 @@ export default CreateEvent;
 
 const buttonStyles2 = {
   buttonStyle: {
-    minWidth: Dimensions.get('screen').width / 3 + 40,
+    minWidth: Dimensions.get('screen').width / 3 + 30,
     height: 50,
     elevation: 1,
     backgroundColor: '#26a1f5',
