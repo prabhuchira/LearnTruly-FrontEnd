@@ -14,6 +14,7 @@ import React from 'react';
 import FacultyTabs from './FacultyStack/FacultyTabs';
 import StudentTabs from './StudentStack/StudentTabs';
 import ManagementTabs from './ManagementStack/ManagementTabs';
+import Permissions from "expo-permissions";
 
 
 const TestingComponent = (props) =>{
@@ -23,9 +24,11 @@ const TestingComponent = (props) =>{
 
   console.log('App')
   const selector = useSelector(state=>state.getUser); 
-  
+
+
   React.useEffect(()=>{
-    // let course = "student";
+    let course = "student";
+ 
     const clearToken = async() => {
        let course = await AsyncStorage.getItem('myaccount');
       // console.log(course)

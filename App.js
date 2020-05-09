@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, StatusBar, Text, Dimensions} from 'react-native';
+import {StyleSheet, View, StatusBar, Text, Dimensions, Alert} from 'react-native';
 
 import {Provider} from 'react-redux';
 import FullStack from './components/FullStack';
@@ -10,12 +10,11 @@ import MapView, { Marker } from 'react-native-maps';
 
 
 
-
 const App = props => {
 
 
   React.useEffect(()=>{
-
+    console.log(props,"asds")
 
   //  setInterval(()=>{
   //     NetInfo.fetch().then(res=>{
@@ -29,6 +28,9 @@ const App = props => {
 
     
   //   return ()=>clearInterval(interval)
+
+  
+  
     
  
   })

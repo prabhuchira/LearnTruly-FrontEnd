@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_EVENTS_FUNC } from '../../redux/actions/actions';
 // import {useSelector, useDispatch} from 'react-redux';
 import { StyleSheet } from 'react-native'
+import * as Permissions from "expo-permissions";
 
 const FacultyDashboard = props => {
   // console.log('getting token')
@@ -83,6 +84,15 @@ const FacultyDashboard = props => {
   //     setIsLoading(false);
   //  }
   //   getClasses();
+  // const registerFunc = async()=> {
+  //   let {status} = await Permissions.askAsync(Permissions.LOCATION);
+  //   console.log(status);
+  // }
+  
+
+  // registerFunc();
+
+
   const getClasses = async ()=>{
     await  dispatch(GET_EVENTS_FUNC());
     setIsLoading(false);

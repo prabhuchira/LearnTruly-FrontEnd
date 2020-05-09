@@ -14,6 +14,7 @@ import Axios from 'axios';
 import UIEventCard from '../../UIComponents/UIEventCard';
 import CreateEvent from '../FacultyStack/CreateEvent';
 // import {useSelector, useDispatch} from 'react-redux';
+import * as Permissions from "expo-permissions";
 
 
 const StudentDashboard = props => {
@@ -23,7 +24,7 @@ const StudentDashboard = props => {
   
  let ignore = false;
   const _signOutAsync = async () => {
-    await AsyncStorage.clear();
+    await AsyncStorage.clear();s
    props.navigation.navigate('Auth');
   };
 
@@ -54,7 +55,29 @@ const StudentDashboard = props => {
   }
 
   React.useEffect(()=>{
-    console.log('loggedin')
+    console.log('loggedin');
+
+    const registerFunc = async()=> {
+      const { status } = await Permissions.getAsync(Permissions.LOCATION);
+      // let {status} = await Permissions.askAsync(Permissions.LOCATION);
+      
+      console.log(status);
+  
+      if (status !== 'granted') {
+        const {status } = await Permissions.askAsync(Permissions.LOCATION);
+        if(status!=="granted"){
+          Alert.alert('GPS Request',"This app needs GPS To work,On and Restart app again",[{text:"Ok",onPress:()=>{props.navigation.navigate('Auth')}}]);
+          
+        }
+      }
+  
+    }
+    
+  
+    registerFunc();
+
+ 
+
     
     const getAccount = async() => {
       try{
