@@ -111,7 +111,7 @@ const SignUp = props => {
                   container = {management_id: data.management_id, ...allItems};
                 }
 
-                await Axios.post('http://192.168.0.103:3000/signup', container)
+                await Axios.post('http://192.168.0.105:3000/signup', container)
                   .then(res => {
                     let val = isString(res.data);
                     if (val) {
@@ -350,6 +350,8 @@ const SignUp = props => {
                       }
                     />
 
+{values.selectCourse == 'student' ? (
+
                     <UIInput
                       placeholder="Roll no"
                       icon_name="award"
@@ -358,7 +360,8 @@ const SignUp = props => {
                       errorMessage={
                         errors.roll_no && touched.roll_no ? errors.roll_no : ''
                       }
-                    />
+                    />) : null
+                  }
 
                     <UIInput
                       placeholder="Email"

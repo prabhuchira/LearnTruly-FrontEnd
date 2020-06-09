@@ -21,10 +21,12 @@ const StudentDashboard = props => {
   // console.log('getting token')
   const win = useSelector(state=>state);
   const dispatch = useDispatch();
+  const [current_account,setCurrent_account] = React.useState({})
+
   
  let ignore = false;
   const _signOutAsync = async () => {
-    await AsyncStorage.clear();s
+    await AsyncStorage.clear();
    props.navigation.navigate('Auth');
   };
 
@@ -44,6 +46,7 @@ const StudentDashboard = props => {
   const [isLoading,setIsLoading] = React.useState(true);
 
   const [editItem,setEditItem] = React.useState(null);
+  const [myEvents,setMyEnvents] = React.useState({});
   let [num,setNum] = React.useState(0);
 
   const changeState = () => {
@@ -82,7 +85,7 @@ const StudentDashboard = props => {
     const getAccount = async() => {
       try{
         let token = await AsyncStorage.getItem('loginToken');
-        let user = await Axios.get('http://192.168.0.103:3000/getUser',
+        let user = await Axios.get('http://192.168.0.105:3000/getUser',
         {
           headers:{
             "auth-token":token
@@ -92,6 +95,7 @@ const StudentDashboard = props => {
         )
 
         console.log(user.data,"GET ACCOUNT");
+        setCurrent_account(user.data)
 
         if(!user.data.isActivated){
           Alert.alert("Account Not Activated","Please consult your management to get your account activated or if Locked.",[{text:"Sure",onPress:()=>{props.navigation.navigate('login')}}])
@@ -119,10 +123,16 @@ const StudentDashboard = props => {
   
     
     const getEvents = async ()=>{
-      await  dispatch(GET_EVENTS_STUDENTS_FUNC());
+      let events =  await  dispatch(GET_EVENTS_STUDENTS_FUNC());
+      console.log(events,"All Events")
       setIsLoading(false);
+
+      
+
    }
     getEvents();
+
+    console.log(current_account,"Current Account")   
     console.log(win)
     // console.log(win,"Windows");
  
@@ -142,7 +152,7 @@ const StudentDashboard = props => {
         <ScrollView style={{marginTop:10}}>
           {win.events.map((item, index) => {
             console.log(item);
-            console.log('wiasd')
+          
            return (   <TouchableOpacity activeOpacity={0.6}  >
                 
                 <UIEventCard

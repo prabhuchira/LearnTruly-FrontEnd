@@ -48,6 +48,7 @@ const GetStudents3 = props => {
   React.useEffect(()=>{
 
     const getClasses = async ()=>{
+      console.log(props.navigation.getParam('className'),props.navigation.getParam('selectBranch'))
       await  dispatch(GET_STUDENTS_FUNC(props.navigation.getParam('className'),props.navigation.getParam('selectBranch')))
       setIsLoading(false);
    }

@@ -146,7 +146,7 @@ const CreateEvent = props => {
       topicName: props.editItem.topicName,
       className: props.editItem.className,
       selectYear: props.editItem.selectYear,
-      selectBranch: Number(props.editItem.selectBranch),
+      selectBranch:Number(props.editItem.selectBranch),
       fromdateAndTime: props.editItem.fromdateAndTime,
       todateAndTime: props.editItem.todateAndTime,
     };

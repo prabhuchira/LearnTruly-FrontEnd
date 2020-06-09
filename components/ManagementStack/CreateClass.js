@@ -20,7 +20,7 @@ const CreateClass = (props) => {
     const postData = async(data) => {
         try{
             let token = await AsyncStorage.getItem('loginToken')
-                await Axios.post("http://192.168.0.103:3000/createClasses",{
+                await Axios.post("http://192.168.0.105:3000/createClasses",{
                 className:data.className,facultyName:data.facultyName,no_of_students:data.no_of_students,year:data.year,  selectBranch:data.selectBranch
                
             },{
@@ -155,7 +155,7 @@ const CreateClass = (props) => {
 
                         <View style={{marginTop:20}}>
                             <Text style={{marginLeft:10,fontSize:16}}>Year:</Text>
-                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#3671bf"}} selectedIndex={values.year} buttons={buttons} containerStyle={{width:300}} onPress={(selectedIndex)=>
+                            <ButtonGroup selectedButtonStyle={{backgroundColor:"#3671bf"}} selectedIndex={values.year} buttons={buttons} containerStyle={{width:260}} onPress={(selectedIndex)=>
                                 setFieldValue('year',selectedIndex)
                             }>
                     
@@ -168,7 +168,7 @@ const CreateClass = (props) => {
                         <Text style={{textAlign:"center"}}>No of Students in Class: {values.no_of_students}</Text>
                         <Button disabled={!isValid} title="ADD CLASSS" buttonStyle={buttonStyles2.buttonStyle} titleStyle={buttonStyles2.titleStyle} onPress={
                             ()=>{
-                            handleSubmit();
+                                handleSubmit();
                            
                             }
 
